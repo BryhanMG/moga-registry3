@@ -1,1 +1,96 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+.login{
+    padding-top: 8%;
+    padding-bottom: 2%;
+    background-image: url(assets/imgs/header.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    
+    width: 100%;
+    height: 15%;
+  }
+
+  .form-login{
+    padding-top: 10%;
+    padding-bottom: 10%;
+    background: #ffffff;
+    border: 1px solid #CFCFCF;
+    box-shadow: 0px 1px 28px -3px rgba(169,170,171,1);
+    
+  }
+  .h1-login{
+    color: #ffffff;
+    font-size: 90px;
+    font-weight: bolder;
+    padding: 0%;
+    text-shadow: 3px 3px 3px #aaa;
+  }
+
+/*Estandar footer y header de apartados del proyecto*/
+.header{
+    background-image: url(assets/imgs/header.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    
+    width: 100%;
+    height: 15%;
+    padding-top: 3%;
+    
+  }
+.footer{
+    background-image: url(assets/imgs/header.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    
+    width: 100%;
+    height: 15%;
+    padding-top: 6.9%;
+    
+}
+.h1-apartados{
+    color: #ffffff;
+    font-size: 90px;
+    font-weight: bolder;
+    padding: 0%;
+    text-shadow: 3px 3px 3px #aaa;
+}
+/*Estandar sub-apartados del proyecto*/
+
+
+.h1-resumen{
+    color: #ffffff;
+    font-size: 55px;
+    font-weight: bolder;
+    
+    text-shadow: 3px 3px 3px #aaa;
+  }
+
+.form-ce{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    padding-top: 2%;
+    padding-left: 3%;
+    width: 94%;
+    background: #ffffff;
+    border: 1px solid #CFCFCF;
+    box-shadow: 0px 1px 28px -3px rgba(169,170,171,1);
+
+}
+
+.header-ce{
+    width: 100%;
+    background: linear-gradient(to right, rgba(117,117,113,1) 0%, rgba(24,22,31,1) 100%);
+    
+  }
+.footer-ce{
+    width: 100%; 
+    background: linear-gradient(to right, rgba(117,117,113,1) 0%, rgba(24,22,31,1) 100%); 
+    height: 120px;
+}

@@ -1,0 +1,30 @@
+<h3>Aviso</h3>
+<mat-divider></mat-divider>
+<div>
+  <h4>Se agregara el siguiente usuario como {{rolNombre}}:</h4>
+  <h5> - ID: {{idUser}}</h5>
+  <h5> - Nombres: {{nombres}}</h5>
+  <h5> - Rol: {{rolNombre}}</h5>
+  <br>
+  <h5>Para agregarlo, por favor asigne una contraseña al usuario
+    <br>en el campo que sigue:</h5>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <input matInput [type]="tipo" placeholder="Password" formControlName="password" required>
+    </mat-form-field>
+    <a (click)="showHidePassword()" *ngIf="!fpass; else show">
+      <mat-icon matTooltip="Mostrar Password">remove_red_eye</mat-icon>
+    </a>
+    <ng-template #show>
+      <a (click)="showHidePassword()">
+        <mat-icon style="color: blue" matTooltip="Ocultar Password">remove_red_eye</mat-icon>
+      </a>
+    </ng-template>
+    <label *ngIf="ferror"> {{mensaje}}</label>
+    <mat-divider style="margin-bottom: 10px"></mat-divider>
+    <button mat-raised-button color="primary" style="width: 100px; margin-right: 1%" (click)="addAdmin()">Agregar</button>
+    <button mat-raised-button color="primary" style="width: 100px; " (click)="onNoClick()">Cancelar</button>
+  </form>
+  
+</div>
+

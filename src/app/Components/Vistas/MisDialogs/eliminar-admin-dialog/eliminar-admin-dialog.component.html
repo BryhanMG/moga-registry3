@@ -1,0 +1,13 @@
+<h3>Advertencia</h3>
+<mat-divider></mat-divider>
+<div>
+  <h4>¿Seguro que quiere eliminar al {{rol}}?</h4>
+  <h5>ID: {{idUser}}</h5>
+  <h5>Nombres: {{nombres}}</h5>
+  <h5>Rol: {{rol}}</h5>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="eliminarAdmin()">Eliminar</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancelar</button>
+  </div>

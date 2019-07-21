@@ -1,0 +1,72 @@
+<div class="header">
+    <div class="container"><h1 class="h1-resumen">Registro</h1></div>
+  </div>
+<div class="container">
+  <div>
+    <div class="form">
+      <h4>Registrar nuevo usuario</h4>
+      <form [formGroup]="formGroup">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field style="width: 75%"> 
+              <input matInput placeholder="Nombres del usuario" formControlName="nombres" required>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field style="width: 75%">
+              <input matInput placeholder="Apellidos del usuario" formControlName="apellidos" required>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field style="width: 75%">
+                <input matInput placeholder="ID del usuario" formControlName="idUsuario" required>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field style="width: 75%">
+              <input matInput  type="email" placeholder="Correo del usuario" formControlName="correo">
+            </mat-form-field>
+          </div>
+          
+        </div>
+        <button mat-raised-button color="primary" style="background: #2E3238; margin-right: 1%" (click)="guardarUsuario()">Guardar</button>
+        <button mat-raised-button color="primary" style="background: #2E3238" (click)="limpiarCampos()">{{opCancelar}}</button>
+      </form>
+      
+      <mat-divider style="margin-top: 2%"></mat-divider>
+      <div style="margin-bottom: 2%">
+          <mat-form-field >
+            <input matInput placeholder="Buscar usuario" [(ngModel)]="id" (keyup.enter)="buscar()">
+          </mat-form-field>
+          <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="buscar()" ><mat-icon>search</mat-icon></button>
+          <label *ngIf="ferror" style="margin-left: 2%">*No se ha encontrado algún registro con ese identificador.</label>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Nombres: {{nombres}}</label>
+            </div>
+            <div class="col-md-6">
+              <label>Apellidos: {{apellidos}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label>ID: {{idUser}}</label>
+            </div>
+            <div class="col-md-6">
+              <label>Correo: {{correo}}</label>
+            </div>
+          </div>
+          <br>
+          <button mat-raised-button color="primary" style="background: #2E3238; margin-right: 1%" (click)="editarRegistro()" [disabled]="fusuario">Editar</button>
+          <button mat-raised-button color="primary" style="background: #2E3238; margin-right: 1%" (click)="limpiarInformacion()" [disabled]="fusuario">Limpiar</button>
+          <button mat-raised-button color="primary" style="background: #2E3238" (click)="eliminarRegistro()" [disabled]="fusuario">Eliminar</button>
+      </div>
+
+    </div>
+    
+  </div>
+
+  
+</div>

@@ -1,0 +1,36 @@
+<div *ngIf="f0">
+    <h4>Participante</h4>
+    <mat-divider style="margin-top: 2%; margin-bottom: 2%"></mat-divider>
+    <h5> - ID: {{participante['_id']}}</h5>
+    <h5> - Nombres: {{participante['nombres']}}</h5>
+    <h5> - Apellidos: {{participante['apellidos']}}</h5>
+    <h5> - Categoría: {{participante['categoria']}}</h5>
+    <h5> - Boleta: {{participante['boleta']}}</h5>
+</div>
+
+<div *ngIf="f1">
+    <h4>Información</h4>
+    <mat-divider style="margin-top: 2%; margin-bottom: 2%"></mat-divider>
+    <h5> - ID: {{participante['_id']}}</h5>
+    <h5> - Nombres: {{participante['nombres']}}</h5>
+    <h5> - Apellidos: {{participante['apellidos']}}</h5>
+    <h5> - Correo: {{participante['correo']}}</h5>
+    <h5> - Categoría: {{participante['categoria']}}</h5>
+    <h5> - Boleta: {{participante['boleta']}}</h5>
+    <h5 *ngFor="let campo of campos"> 
+        - {{campo['campo']}}: {{participante[campo['campo']]}}
+    </h5>
+</div>
+
+<div *ngIf="f2">
+    <h4>Advertencia</h4>
+    <mat-divider style="margin-top: 2%; margin-bottom: 2%"></mat-divider>
+    <h5>Esta seguro que quiere eliminar el <br>siguiente registro de este evento:</h5>
+    <h5> - ID: {{participante['_id']}}</h5>
+    <h5> - Nombres: {{participante['nombres']}}</h5>
+    <h5> - Apellidos: {{participante['apellidos']}}</h5>
+    <h5> - Categoría: {{participante['categoria']}}</h5>
+    <mat-divider style="margin-top: 2%; margin-bottom: 2%"></mat-divider>
+    <button mat-raised-button color="primary" style="margin-right: 2%" (click)="eliminarRegistro()" >Eliminar</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()" >Cancelar</button>
+</div>

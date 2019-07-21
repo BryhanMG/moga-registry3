@@ -1,0 +1,20 @@
+.form{
+    margin-top: 4%;
+    padding: 3%;
+    width: 94%;
+    background: #ffffff;
+    border: 1px solid #CFCFCF;
+    box-shadow: 0px 1px 28px -3px rgba(169,170,171,1);
+    
+  }
+
+  .example-viewport-principal {
+    height: 375px;
+    width: 100%;
+    border: 3px solid black;
+    border-radius: 15px;
+    border-color: #262B38;
+    box-shadow: 0px 1px 28px -3px rgba(169,170,171,1);
+    
+    
+  }

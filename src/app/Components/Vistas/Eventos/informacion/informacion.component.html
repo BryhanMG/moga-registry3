@@ -1,0 +1,132 @@
+<html>
+  <body>
+    <div class="header">
+      <div class="container">
+          <h1 class="h1-apartados">Eventos de Registro</h1>
+      </div>  
+    </div>
+    <div class="container">
+      <div class="form">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-10">
+              <mat-form-field >
+                <input matInput placeholder="Buscar evento" [(ngModel)]="entrada" (keyup.enter)="buscar()">
+              </mat-form-field>
+              <button mat-mini-fab color="primary" style="background: #2E3238" (click)="buscar()"><mat-icon>search</mat-icon></button>
+            </div>
+            <div class="col-md-2">
+                <button mat-raised-button color="primary" style="background: #2E3238; width: 100%;" routerLink="/crear">+ Nuevo</button>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <button mat-raised-button color="primary" style="background: #2E3238;" (click)="evaluarEventos()">Actualizar</button>
+        </div>
+        
+        <!--Lista de elementos-->
+        <div class="container" >
+            <br>
+            <table class="table">
+              <thead class="thead-dark" style="width: 100%;">
+                <tr>
+                  <th scope="col" style="width: 2%"></th>
+                  <th scope="col" style="width: 20%">ID</th>
+                  <th scope="col" style="width: 42%">Evento</th>
+                  <th scope="col" style="width: 18%">Tipo</th>
+                  <th scope="col" style="width: 18%">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                </tr>
+              </tbody>
+          </table>
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+              
+              <mat-accordion>
+              
+                  <mat-expansion-panel *ngFor="let evento of listaEventos">
+                    <!--Titulos-->
+                    
+                    <mat-expansion-panel-header>
+                      <table style="width: 100%">
+                        <thead>
+                          <th style="width: 20%">
+                            <mat-panel-title>
+                              {{evento._id}}
+                            </mat-panel-title>
+                          </th>
+                          <th style="width: 40%">
+                            <mat-panel-description>
+                              {{evento.nombre_er}}
+                            </mat-panel-description>
+                          </th>
+                          <th style="width: 20%">
+                            <mat-panel-description>
+                              {{tipoEvento(evento.tipo)}}
+                            </mat-panel-description>
+                          </th>
+                          <th style="width: 10%">
+                            <mat-panel-description>
+                              <div *ngIf="indentificarEstado(evento.estado)==='A'; else espera;">
+                                <mat-icon style="color: green;">play_circle_filled</mat-icon>
+                              </div>
+                            </mat-panel-description>
+                          </th>
+                        </thead>
+                      </table>
+                      
+                      
+                      
+                    </mat-expansion-panel-header>
+                    <!--campos del desplegable-->
+                      <p>Descripcion: {{evento.descripcion}}</p>
+                      <div class="row">
+                        <div class="col-sm-6">Fecha de Inicio: {{evento.fecha_i.substring(0, 10)}} ---- {{evento.fecha_i.substring(11, 16)}} Hrs.</div>
+                        <div class="col-sm-6">Fecha Fin: {{evento.fecha_f.substring(0, 10)}} ---- {{evento.fecha_f.substring(11, 16)}} Hrs.</div>
+                      </div>
+                      <br>
+                      <button class="button-size" mat-raised-button color="primary" routerLink="/moga/resumen/{{evento._id}}">Acceder</button>
+                      <button class="button-size" mat-raised-button color="primary" [disabled]="!(evento.estado==='E')" routerLink="/editar-evento/{{evento._id}}">Editar</button>
+                      <button class="button-size" mat-raised-button color="primary" style="background: crimson" [disabled]="!(evento.estado==='A')">Terminar</button>
+                      
+                      
+                  </mat-expansion-panel>
+                </mat-accordion>
+            </cdk-virtual-scroll-viewport>  
+        </div>
+        <br>
+        <div class="container" >
+          <mat-form-field >
+            <mat-select placeholder="Mostrar"  name="mostrar" [(ngModel)]="mostrar">
+              <mat-option value="Z" >Todo</mat-option>
+              <mat-option value="A">Activos</mat-option>
+              <mat-option value="E">En espera</mat-option>
+              <mat-option value="T">Terminados</mat-option>
+            </mat-select>
+            
+          </mat-form-field>
+          
+          <br>
+          <button class="button-size" mat-raised-button color="primary" style="background: #2E3238" (click)="opcionMostrar()">Mostrar</button>
+          <!-- <button class="button-size" mat-raised-button color="primary" style="background: #2E3238" (click)="comprobarEventosEspera()">Actualizar</button> -->
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    
+    <div class="footer" ></div>
+  </body>
+</html>
+  <ng-template #espera>
+    <div *ngIf="estado==='E';else terminado;">
+      <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+    </div>
+  </ng-template>
+  <ng-template #terminado>
+      <div *ngIf="estado==='T';">
+        <mat-icon style="color: red;">stop</mat-icon>
+      </div>
+  </ng-template>

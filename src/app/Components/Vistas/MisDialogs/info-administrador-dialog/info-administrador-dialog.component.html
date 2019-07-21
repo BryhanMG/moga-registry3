@@ -1,0 +1,32 @@
+<h3 >Información del administrador</h3>
+<div>
+  <h5>ID: {{idUser}}</h5>
+  <h5>Nombres: {{nombres}}</h5>
+  <h5>Rol: {{rol}}</h5>
+</div>
+
+<mat-divider style="margin-bottom: 2%; margin-top: 2%"></mat-divider>
+<div >
+  <h3 >Restauración de contraseña</h3>
+  <h5>para restaurar la contraseña debe ingresar la nueva contraseña, <br>para este usuario, en el campo siguiente:</h5>
+  <form [formGroup]="formGroup">
+    <mat-form-field >
+      <input matInput [type]="tipo" placeholder="Password" formControlName="password" required>
+    </mat-form-field>
+    <a (click)="showHidePassword()" *ngIf="!fpass; else show">
+      <mat-icon>remove_red_eye</mat-icon>
+    </a>
+    <ng-template #show>
+      <a (click)="showHidePassword()">
+        <mat-icon style="color: blue">remove_red_eye</mat-icon>
+      </a>
+    </ng-template>
+    <br>
+    <label *ngIf="ferror"> {{mensaje}}</label>
+    <br>
+    <button mat-raised-button color="primary" style="margin-right: 2%; width: 120px;" (click)="restablecer()">Restablecer</button>
+    <button mat-raised-button color="primary" style="margin-right: 2%; width: 120px;" (click)="onNoClick()">Cerrar</button>
+  </form>
+  
+</div>
+

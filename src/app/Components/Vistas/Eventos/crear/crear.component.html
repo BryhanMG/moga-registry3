@@ -1,0 +1,485 @@
+
+<div class="header-ce"><div class="container"><h1>Crear Evento</h1></div></div>
+<!--<button (click)="createEvento()">Crear</button>-->
+<div class="container">
+    <div class="form-ce">
+    <div >
+      <mat-horizontal-stepper linear="false" #stepper >
+        <!--Paso inicial de informacion general-->
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>General</ng-template>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <input matInput placeholder="Nombre del evento" formControlName="nombreE"  required>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" >
+                <mat-form-field>
+                  <mat-label>Tipo de evento</mat-label>
+                  <mat-select formControlName="tipo" required >
+                    <mat-option value="L">Libre</mat-option>
+                    <mat-option value="P">De pago</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6" style="margin-top: 1%">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="dp1" placeholder="Fecha de inicio" formControlName="fechaI" required>
+                  <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                  <mat-datepicker #dp1 disabled="false" ></mat-datepicker>
+                </mat-form-field>
+              </div> 
+              <div class="col-md-6" style="margin-top: 1%">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="dp2" placeholder="Fecha de finalizacion" formControlName="fechaF" required>
+                  <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
+                  <mat-datepicker #dp2 disabled="false" ></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6" style="margin-top: 1%">
+                  <mat-form-field>
+                      <input matInput atp-time-picker placeholder="Hora de inicio" formControlName="horaI" required>
+                  </mat-form-field>
+                
+              </div>
+              <div class="col-md-6" style="margin-top: 1%;">
+                  <mat-form-field>
+                      <input matInput atp-time-picker placeholder="Hora de finalizacion" formControlName="horaF" required>
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6" style="margin-top: 1%;">
+                  <mat-form-field>
+                    <input matInput type="number" placeholder="Monto a pagar" formControlName="monto"  required *ngIf="seleccionarTipoEvento()">
+                  </mat-form-field>
+              </div>
+              <div class="col-md-6" style="margin-top: 1%;">
+                  <button mat-raised-button  class="base" color="primary" (click)="addCamposDialog()" [disabled]="this.firstFormGroup.get('tipo').value != 'P'">+ Campos de registro</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="md-form" >
+                  <label for="form7" style="margin-top: 30px">Descripción</label>
+                  <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" formControlName="descripcion"></textarea>
+                </div>
+              </div>
+                
+              <div class="col-md-6" >
+                  <div class="md-form" >
+                    <mat-form-field >
+                      <input matInput placeholder="Categoría" formControlName="categoria" *ngIf="seleccionarTipoEvento()" (keyup.enter)="addCategoria()">
+                    </mat-form-field>
+                    <button mat-raised-button class="base" color="primary" style="margin-left: 2%" 
+                      [disabled]="this.firstFormGroup.get('tipo').value != 'P'" (click)="addCategoria()">Guardar</button>
+                    <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-actividades" style="height: 190px;" >
+                        <mat-list role="list" *ngFor="let cat of evento.categorias">
+                          <div class="row">
+                            <div class="col-9">
+                              <mat-list-item role="cat">{{cat}}</mat-list-item>
+                            </div>
+                            <div class="col-3">
+                              <a (click)="dellCategoria(cat)">
+                                <mat-icon style="margin: 10%">delete</mat-icon>
+                              </a>
+                            </div>
+                          </div>
+                          <mat-divider></mat-divider>
+                        </mat-list>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top: 2%">
+              <button mat-raised-button class="base" color="primary" (click)="mover()">Siguiente</button>
+            </div>
+          </form>
+        </mat-step>
+        <!--Segundo paso, generacion de actividades-->
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup">
+            
+            <ng-template matStepLabel>Actividades</ng-template>
+            
+            <div *ngIf="evento.tipo === 'L'; else pago">
+              <div class="row">
+                <div class="col-md-6" >
+                  <mat-form-field>
+                    <input matInput placeholder="Nombre del evento *" formControlName="nombreA" >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6" >
+                  <div style="padding-top: 5%">
+                    <mat-checkbox (click)="activacionGenerica()" formControlName="checked">Actividad genérica</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6" style="margin-top: 2%">
+                  <p>Tipo de actividad: Libre</p>
+                </div>
+                <div class="col-md-6" style="margin-top: 2%">
+                  <mat-form-field>
+                    <mat-label>Escoger fecha *</mat-label>
+                    <mat-select formControlName="fecha"  >
+                      <mat-option *ngFor="let fecha of listaFechas" [value]="fecha['fecha']">{{fecha["sFecha"]}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6" style="margin-top: 2%">
+                  <mat-form-field>
+                    <input matInput atp-time-picker placeholder="Hora de inicio *" formControlName="horaI" >
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
+                    <mat-form-field>
+                        <input matInput atp-time-picker placeholder="Hora de finalizacion *" formControlName="horaF" >
+                    </mat-form-field>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-4" style="margin-top: 2%">
+                    <div class="md-form" >
+                        <label for="form7" >Descripción</label>
+                        
+                        <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" formControlName="descripcion"></textarea>
+                        
+                      </div>
+                </div>
+                <div class="col-md-8" style="margin-top: 2%">
+                    <div class="md-form" >
+                        <button mat-raised-button class="base" color="primary" style="margin-right: 1%" (click)="comprobarInformacionActividad()" *ngIf="!feditar; else actualizar">Guardar</button>
+                        <ng-template #actualizar>
+                          <button mat-raised-button class="base" color="primary" style="margin-right: 1%" (click)="comprobarInformacionActividad()">Actualizar</button>
+                          <button mat-raised-button class="base" color="primary" style="margin-right: 1%" (click)="limpiarCamposActividades()">Cancelar</button>
+                        </ng-template>
+                        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-actividades" >
+                            <mat-accordion>
+              
+                                <mat-expansion-panel *ngFor="let actividad of listaActividades">
+                                  <!--Titulos-->
+                                  
+                                  <mat-expansion-panel-header>
+                                    <table style="width: 100%">
+                                      <thead>
+                                        <th style="width: 40%">
+                                          <mat-panel-title>
+                                            {{obtenerTipoActividad(actividad['actividad'].tipo)}}
+                                          </mat-panel-title>
+                                        </th>
+                                        <th style="width: 40%">
+                                          <mat-panel-description>
+                                            {{actividad['actividad'].nombre_a}}
+                                          </mat-panel-description>
+                                        </th>
+                                        <th style="width: 20%">
+                                          <mat-panel-description>
+                                            <a (click)="editarActividad(actividad)" style="margin-right: 10px">
+                                              <mat-icon matTooltip="Editar actividad">edit</mat-icon>
+                                            </a>
+                                            <a (click)="deleteActividad(actividad['id'])">
+                                              <mat-icon >delete</mat-icon>
+                                            </a>
+                                          </mat-panel-description>
+                                        </th>
+                                      </thead>
+                                    </table>
+                                    
+                                    
+                                    
+                                  </mat-expansion-panel-header>
+                                  <!--campos del desplegable-->
+                                    <p>Descripcion: {{actividad['actividad'].descripcion}}</p>
+                                    <div class="row">
+                                      <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
+                                      <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
+                                    </div>
+                                    <br>
+                                    
+                                </mat-expansion-panel>
+                              </mat-accordion>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #pago>
+                <div>
+                    <div class="row">
+                      <div class="col-md-6" >
+                        <mat-form-field>
+                          <input matInput placeholder="Nombre de la actividad *"  formControlName="nombreA" >
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6" >
+                          <mat-form-field>
+                            <mat-label>Tipo de actividad *</mat-label>
+                            <mat-select type="number" formControlName="tipo">
+                              <mat-option value="1">General</mat-option>
+                              <mat-option value="2">Especial de pago</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6" style="margin-top: 2%">
+                        <mat-form-field>
+                          <mat-label>Escoger fecha *</mat-label>
+                          <mat-select formControlName="fecha"  >
+                            <mat-option *ngFor="let fecha of listaFechas" [value]="fecha['fecha']">{{fecha["sFecha"]}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
+                        <mat-form-field>
+                          <input matInput placeholder="Monto *" formControlName="monto" *ngIf="seleccionTipoActividad()">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6" style="margin-top: 2%">
+                        <mat-form-field>
+                          <input matInput atp-time-picker placeholder="Hora de inicio *" formControlName="horaI" >
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
+                          <mat-form-field>
+                              <input matInput atp-time-picker placeholder="Hora de finalizacion *" formControlName="horaF" >
+                          </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4" style="margin-top: 1%">
+                          <div class="md-form" >
+                            <label for="form7" >Descripción</label>
+                            <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 225px;" formControlName="descripcion"></textarea>
+                          </div>
+                      </div>
+                      <div class="col-md-8" >
+                          <div class="md-form" >
+                            <button mat-raised-button class="base" color="primary" style="margin-right: 1%" (click)="comprobarInformacionActividad()" *ngIf="!feditar; else actualizar">Guardar</button>
+                            <ng-template #actualizar>
+                              <button mat-raised-button class="base" color="primary" style="margin-right: 1%" (click)="comprobarInformacionActividad()">Actualizar</button>
+                              <button mat-raised-button class="base" color="primary" style="margin-right: 1%" (click)="limpiarCamposActividades()">Cancelar</button>
+                            </ng-template>
+                            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-actividades" style="height: 225px;" >
+                                <mat-accordion>
+                  
+                                    <mat-expansion-panel *ngFor="let actividad of listaActividadesP">
+                                      <!--Titulos-->
+                                      
+                                      <mat-expansion-panel-header>
+                                        <table style="width: 100%">
+                                          <thead>
+                                            <th style="width: 40%">
+                                              <mat-panel-title>
+                                                {{obtenerTipoActividad(actividad['actividad'].tipo)}}
+                                              </mat-panel-title>
+                                            </th>
+                                            <th style="width: 40%">
+                                              <mat-panel-description>
+                                                {{actividad['actividad'].nombre_a}}
+                                              </mat-panel-description>
+                                            </th>
+                                            <th style="width: 20%">
+                                              <mat-panel-description>
+                                                <a (click)="editarActividad(actividad)" style="margin-right: 10px">
+                                                  <mat-icon matTooltip="Editar actividad">edit</mat-icon>
+                                                </a>
+                                                <a (click)="deleteActividad(actividad['id'])">
+                                                  <mat-icon >delete</mat-icon>
+                                                </a>
+                                              </mat-panel-description>
+                                            </th>
+                                          </thead>
+                                        </table>
+                                        
+                                      </mat-expansion-panel-header>
+                                      <!--campos del desplegable-->
+                                        <h5>Descripcion: {{actividad['actividad'].descripcion}}</h5>
+                                        <h5 *ngIf="actividad['actividad'].tipo == 2">Monto: {{actividad['actividad'].monto}}</h5>
+                                        <div class="row">
+                                          <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
+                                          <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
+                                        </div>
+                                        <br>
+                                        
+                                    </mat-expansion-panel>
+                                  </mat-accordion>
+                            </cdk-virtual-scroll-viewport>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+              <div class="row" *ngIf="evento.tipo === 'T'">
+                <div class="col-md-6" style="margin-top: 2%">
+                  <mat-form-field>
+                    <input matInput placeholder="Monto *" formControlName="monto">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
+                  <mat-form-field>
+                    <input matInput placeholder="Total participantes *" formControlName="total">
+                  </mat-form-field>
+                </div>
+              </div>
+            </ng-template>
+            <mat-divider style="margin-top: 2%"></mat-divider>
+            
+          </form>
+          <div style="margin-top: 2%">
+            <button mat-raised-button matStepperPrevious class="base" color="primary">Regresar</button>
+            <button mat-raised-button matStepperNext class="base" color="primary" >Siguiente</button>
+          </div>
+        </mat-step>
+        <!--Paso final de verificacion de informacion-->
+        <mat-step >
+          <ng-template matStepLabel>Verificar Información</ng-template>
+
+          <div class="row">
+            <div class="col-md-6"><label class="titulo">Nombre: </label><label class="contenido">{{evento.nombre_er}}</label></div>
+            <div class="col-md-6"><label class="titulo">Tipo: </label><label class="contenido">Registro Libre</label></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6"><label class="titulo">Fecha de inicio: </label><label class="contenido" >{{evento.fecha_i.substring(0, 10)}}</label></div>
+            <div class="col-md-6"><label class="titulo">Fecha de finalización: </label><label class="contenido">{{evento.fecha_f.substring(0, 10)}}</label></div>
+          </div>
+          <div class="row">
+            <div class="col-md-6"><label class="titulo">Hora de inicio: </label><label class="contenido" >{{evento.fecha_i.substring(11, 16)}} Hrs.</label></div>
+            <div class="col-md-6"><label class="titulo">Hora de finalización: </label><label class="contenido">{{evento.fecha_f.substring(11, 16)}} Hrs.</label></div>
+          </div>
+
+          <label class="titulo">Actividades:</label>
+          <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-informacion" >
+            <mat-accordion *ngIf="evento.tipo === 'L'; else pagoFinal">
+            
+              <mat-expansion-panel *ngFor="let actividad of listaActividades">
+                <!--Titulos-->
+                
+                <mat-expansion-panel-header>
+                  <table style="width: 100%">
+                    <thead>
+                      <th style="width: 20%">
+                        <mat-panel-title>
+                          {{obtenerTipoActividad(actividad['actividad'].tipo)}}
+                        </mat-panel-title>
+                      </th>
+                      <th style="width: 40%">
+                        <mat-panel-description>
+                          {{actividad['actividad'].nombre_a}}
+                        </mat-panel-description>
+                      </th>
+                      <th style="width: 30%">
+                        <mat-panel-description>
+                          <div *ngIf="actividad['actividad'].estado==='A'; else espera;">
+                            <mat-icon style="color: green;">play_circle_filled</mat-icon>
+                          </div>
+                          <ng-template #espera>
+                              <div *ngIf="actividad['actividad'].estado==='E';else terminado;">
+                                <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                              </div>
+                            </ng-template>
+                            <ng-template #terminado>
+                                <div *ngIf="actividad['actividad'].estado==='T';">
+                                  <mat-icon style="color: red;">stop</mat-icon>
+                                </div>
+                            </ng-template>
+                        </mat-panel-description>
+                      </th>
+                    </thead>
+                  </table>
+                  
+                  
+                  
+                </mat-expansion-panel-header>
+                <!--campos del desplegable-->
+                  <p>Descripcion: {{actividad['actividad'].descripcion}}</p>
+                  <div class="row">
+                    <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
+                    <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
+                  </div>
+                  <br>
+                  
+              </mat-expansion-panel>
+            </mat-accordion>
+            <ng-template #pagoFinal>
+                <mat-accordion>
+            
+                    <mat-expansion-panel *ngFor="let actividad of listaActividadesP">
+                      <!--Titulos-->
+                      
+                      <mat-expansion-panel-header>
+                        <table style="width: 100%">
+                          <thead>
+                            <th style="width: 20%">
+                              <mat-panel-title>
+                                {{obtenerTipoActividad(actividad['actividad'].tipo)}}
+                              </mat-panel-title>
+                            </th>
+                            <th style="width: 40%">
+                              <mat-panel-description>
+                                {{actividad['actividad'].nombre_a}}
+                              </mat-panel-description>
+                            </th>
+                            <th style="width: 30%">
+                              <mat-panel-description>
+                                <div *ngIf="actividad['actividad'].estado==='A'; else espera;">
+                                  <mat-icon style="color: green;">play_circle_filled</mat-icon>
+                                </div>
+                                <ng-template #espera>
+                                    <div *ngIf="actividad['actividad'].estado==='E';else terminado;">
+                                      <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                                    </div>
+                                  </ng-template>
+                                  <ng-template #terminado>
+                                      <div *ngIf="actividad['actividad'].estado==='T';">
+                                        <mat-icon style="color: red;">stop</mat-icon>
+                                      </div>
+                                  </ng-template>
+                              </mat-panel-description>
+                            </th>
+                          </thead>
+                        </table>
+                        
+                        
+                        
+                      </mat-expansion-panel-header>
+                      <!--campos del desplegable-->
+                        <h5>Descripcion: {{actividad['actividad'].descripcion}}</h5>
+                        <h5>Monto: {{actividad['actividad'].monto}}</h5>
+                        <div class="row">
+                          <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
+                          <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
+                        </div>
+                        <br>
+                        
+                    </mat-expansion-panel>
+                  </mat-accordion>
+            </ng-template>
+          </cdk-virtual-scroll-viewport> 
+            
+          <div style="margin-top: 3%">
+            <button mat-raised-button matStepperPrevious class="base" color="primary">Regresar</button>
+            <button mat-raised-button class="base" color="primary" (click)="crearEvento()" >Finalizar</button>
+          </div>
+      </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+    
+</div>  
+ </div>
+ <div class="footer-ce"></div>
+
+ 

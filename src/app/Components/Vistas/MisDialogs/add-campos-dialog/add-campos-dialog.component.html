@@ -1,0 +1,44 @@
+<div>
+  <h4>Añadir campos</h4>
+  <p>Los siguientes, son los campos por defecto para el registro:</p>
+  <p> - ID</p>
+  <p> - Nombres</p>
+  <p> - Apellidos</p>
+  <p> - Correo</p>
+  <p> - No. Boleta</p>
+</div>
+
+<div>
+  <p>En el siguiente apartado podrá agregar campos adicionales <br>para el registro:</p>
+  <form [formGroup]="formGroup">
+    <mat-form-field >
+      <input matInput placeholder="Nombre del campo" formControlName="nombre" (keyup.enter)="addCampo()" required>
+    </mat-form-field>
+    <button mat-raised-button color="primary" style="margin-left: 2%" (click)="addCampo()">Agregar</button>
+  </form>
+  
+  <div>
+    <p>Campos adicionales</p>
+    <mat-divider style="margin-top: 2%"></mat-divider>
+    <cdk-virtual-scroll-viewport itemSize="50" style="height: 150px;" >
+      <mat-list role="list" *ngFor="let campo of lista">
+        <div class="row">
+          <div class="col-9">
+              <mat-list-item role="listitem">{{campo['campo']}}</mat-list-item>
+          </div>
+          <div class="col-3">
+            <a (click)="deleteCampos(campo['id'])" >
+              <mat-icon matTooltip="Eliminar" style="margin: 10px">delete</mat-icon>
+            </a>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list>
+    </cdk-virtual-scroll-viewport>
+    <mat-divider style="margin-top: 2%; margin-bottom: 2%"></mat-divider>
+  </div>
+  <button mat-raised-button color="primary" style="margin-left: 2%" (click)="guardarCampos()">Guardar</button>
+  <button mat-raised-button color="primary" style="margin-left: 2%" (click)="onNoClick()">Cancelar</button>
+</div>
+
+

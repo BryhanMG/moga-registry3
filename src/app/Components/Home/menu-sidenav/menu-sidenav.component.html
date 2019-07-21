@@ -1,0 +1,44 @@
+<mat-sidenav-container class="nav-container"> 
+  <mat-sidenav #sidenav  mode="push"  class="base">
+              <div class="container" style="background: white">
+                <div><img src="../../../assets/imgs/user.png"></div>
+                <div class="offset-1"><h4>
+                  Usuario: {{usuario}}</h4>
+                </div>
+              </div>
+
+                <div class="menu-base">
+                  <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/eventos"><h4>Eventos</h4></button>
+                  <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/usuarios"><h4>Usuarios</h4></button>
+                  <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/registro" ><h4>Registro</h4></button>
+                  
+                  
+                </div>
+                
+  </mat-sidenav >
+
+  <mat-sidenav-content >
+     
+    <div class="base"> 
+      <span class="float-left">
+        <button  mat-flat-button class="menu-base" style="width: 80px; height: 55px" (click)="sidenav.toggle()"><mat-icon >menu</mat-icon></button >
+          <br>
+        <button  mat-flat-button class="menu-base" style="width: 80px; height: 55px; margin-top: 1%" [matMenuTriggerFor]="menu"><mat-icon >settings</mat-icon></button >
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="passwordDialog()">
+              <mat-icon>lock</mat-icon>
+              <span>Cambiar contraseña</span>
+            </button>
+            <button mat-menu-item (click)="cerrarSesion()">
+              <mat-icon>settings_power</mat-icon>
+              <span>Cerrar Sesión</span>
+            </button>
+            
+          </mat-menu>
+        </span>
+    </div>
+    
+    <router-outlet> </router-outlet>
+  </mat-sidenav-content > 
+  
+</mat-sidenav-container >

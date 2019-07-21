@@ -1,0 +1,109 @@
+p{
+    padding-top: 3%;
+    font-size: 20px;
+}
+h1{
+  color: #ffffff;
+  font-size: 90px;
+  font-weight: bolder;
+  padding: 0%;
+  text-shadow: 3px 3px 3px #aaa;
+}
+.header{
+    margin-top: 20%;
+    background: #2E3238
+  }
+
+.base{
+    margin-right: 1%;
+    background: #2E3238
+  }
+
+.titulo{
+  font-size: 20px;
+  font-weight: bold; 
+  color: #2E3238;
+  margin-right: 2%;
+  
+}
+
+.contenido{
+  font-size: 18px;
+  color: #2E3238;
+}
+
+  
+  .example-viewport {
+    height: 491px;
+    width: 94%;
+    margin-bottom: 2%;
+    border-radius: 20px;
+    border-color: #262B38;
+    
+    
+  }
+  .example-viewport-principal {
+    height: 150px;
+    width: 94%;
+    border: 2px solid black;
+    border-radius: 5px;
+    border-color: #262B38;
+    box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+    
+    
+  }
+
+  .example-viewport-actividades {
+    height: 190px;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 5px;
+    border-color: #262B38;
+    box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+    
+    
+  }
+  .example-viewport-informacion {
+    height: 328px;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 5px;
+    border-color: #262B38;
+    box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+    
+    
+  }
+
+  .example-viewport-informacion2 {
+    height: 250px;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 15px;
+    border-color: #262B38;
+    box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+    
+    
+  }
+  .example-viewport-informacion3 {
+    height: 225px;
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 15px;
+    border-color: #262B38;
+    box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+    
+    
+  }
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+

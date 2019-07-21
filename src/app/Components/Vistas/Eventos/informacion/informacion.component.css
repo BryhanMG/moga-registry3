@@ -1,0 +1,44 @@
+
+h4{
+    
+    color: #207ce5;
+    text-shadow: 2px 2px 2px #aaa;
+}
+
+.button-size {
+    background: #2E3238;
+    margin-right: 1%;
+    width: 90px;
+}
+
+.example-viewport {
+    height: 375px;
+    width: 100%;
+    border: 5px solid black;
+    border-radius: 20px;
+    border-color: #262B38;
+    
+    
+}
+
+.form{
+    margin-top: 2%;
+    padding: 3%;
+    width: 94%;
+    background: #ffffff;
+    border: 1px solid #CFCFCF;
+    box-shadow: 0px 1px 28px -3px rgba(169,170,171,1);
+
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}

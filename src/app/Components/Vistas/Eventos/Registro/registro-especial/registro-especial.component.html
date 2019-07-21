@@ -1,0 +1,117 @@
+<div class="header"><h1 style="margin-left: 150px">Registro: {{actividad.nombre_a}}</h1></div>
+  <div class="container">
+    <div class="form">
+      <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input matInput placeholder="Buscar" [(ngModel)]="id" (keyup.enter)="buscar()">
+            </mat-form-field>
+            <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="buscar()" ><mat-icon>search</mat-icon></button>
+            <label *ngIf="ferror" style="margin-left: 10px">* Sin registro</label>
+          </div>
+          <div class="col-md-6">
+              <button mat-raised-button color="primary" style="background: #2E3238;" routerLink="/moga/registro">Registrar al sistema</button>
+              
+          </div>
+      </div>
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Nombres *: {{this.firstFormGroup.get('nombres').value}}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Apellidos *: {{this.firstFormGroup.get('apellidos').value}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>ID *: {{this.firstFormGroup.get('id').value}}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Correo *: {{this.firstFormGroup.get('correo').value}}</h5>
+        </div>
+      </div>
+        
+      <div class="row">
+        <div class="col-md-6">
+          
+          <form [formGroup]="firstFormGroup">
+              <mat-checkbox style="margin-right: 2%" formControlName="fcategoria"></mat-checkbox>
+            <mat-form-field>
+              <mat-label>Categoría *</mat-label>
+              <mat-select formControlName="categoria"  [disabled]="!firstFormGroup.get('fcategoria').value">
+                <mat-option *ngFor="let cat of evento.categorias" [value]="cat">{{cat}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+      
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <button mat-raised-button color="primary" style="background: #2E3238; width: 100px; margin-right: 1%" (click)="registrar()" [disabled]="!this.firstFormGroup.valid">{{registrarActualizar}}</button>
+      <button mat-raised-button color="primary" style="background: #2E3238; width: 100px" (click)="limpiarCampos()" [disabled]="!this.firstFormGroup.valid">{{limpiarCancelar}}</button>
+      <label *ngIf="ferror2" style="margin-left: 10px">* El usuario ya fue registrado</label>
+      
+      
+      <!--
+        <button mat-raised-button color="primary" style="background: #2E3238;" (click)="generarQR()">Generar codigo QR</button>
+        <div *ngIf="codigoQR">
+            <ngx-qrcode [qrc-value]="codigoQR" ></ngx-qrcode>
+        </div>
+      -->
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Despliegue para ver los registros
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <mat-form-field  style="width: 250px" *ngIf="!checked">
+              <input matInput placeholder="Buscar por ID, Boleta, Nombre" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
+            </mat-form-field>
+            <mat-form-field style="width: 250px" *ngIf="checked">
+              <input matInput placeholder="Buscar por No. de Boleta" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
+            </mat-form-field>
+              <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="busquedaRegistros()" ><mat-icon>search</mat-icon></button>
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" style="width: 20%">ID</th>
+                    <th scope="col" style="width: 45%">Nombre</th>
+                    <th scope="col" style="width: 20%">Categoría</th>
+                    <th scope="col" style="width: 15%">opciones</th>
+                  </tr>
+                </thead>
+                
+            </table>
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-principal">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let pa of participantes">
+                            <td style="width: 20%">{{pa['_id']}}</td>
+                            <td style="width: 45%">{{pa['nombres']}} {{pa['apellidos']}}</td>
+                            <td style="width: 20%">{{pa['categoria']}}</td>
+                            <td style="width: 15%">
+                              <a  (click)="editarRegistro(pa)">
+                                <mat-icon matTooltip="Editar" style="margin-left: 4%">edit</mat-icon>
+                              </a>
+                              <a style="margin-left: 4%" (click)="errorDialog(2, pa)">
+                                <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                              </a>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table> 
+              
+            </cdk-virtual-scroll-viewport>
+          </mat-expansion-panel>
+        </mat-accordion>
+          
+      </div>
+    </div>
+  </div>
+<div class="footer" style=" height: 200px"></div>

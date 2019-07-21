@@ -1,0 +1,141 @@
+<div class="header"><h1 style="margin-left: 150px">Registro</h1></div>
+  <div class="container">
+    <div class="form">
+      <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <input matInput placeholder="Buscar" [(ngModel)]="id" (keyup.enter)="buscar()">
+            </mat-form-field>
+            <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="buscar()" ><mat-icon>search</mat-icon></button>
+            <label *ngIf="ferror" style="margin-left: 10px">* Sin registro</label>
+          </div>
+          <div class="col-md-6">
+              <button mat-raised-button color="primary" style="background: #2E3238;" routerLink="/moga/registro">Registrar al sistema</button>
+              
+          </div>
+      </div>
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Nombres *: {{this.firstFormGroup.get('nombres').value}}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Apellidos *: {{this.firstFormGroup.get('apellidos').value}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>ID *: {{this.firstFormGroup.get('id').value}}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Correo *: {{this.firstFormGroup.get('correo').value}}</h5>
+        </div>
+      </div>
+        
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="firstFormGroup">
+            <mat-form-field style="width: 50%">
+              <input matInput placeholder="No. Boleta" formControlName="boleta"  required>
+              <mat-hint align="start"><strong>Campo obligatorios *</strong> </mat-hint>
+            </mat-form-field>
+          </form>
+        </div>
+        <div class="col-md-6">
+          
+          <form [formGroup]="firstFormGroup">
+              <mat-checkbox style="margin-right: 2%" formControlName="fcategoria"></mat-checkbox>
+            <mat-form-field>
+              <mat-label>Categoría *</mat-label>
+              <mat-select formControlName="categoria"  [disabled]="!firstFormGroup.get('fcategoria').value">
+                <mat-option *ngFor="let cat of evento.categorias" [value]="cat">{{cat}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+      
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <h4>Campos adicionales</h4>
+      <div class="row">
+          <div class="col-md-6" *ngFor="let campo of campos">
+            <mat-form-field style="width: 50%">
+              <input matInput [placeholder]="campo['campo']" [(ngModel)]="campo['valor']">
+            </mat-form-field>
+          </div>
+      </div>
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <button mat-raised-button color="primary" style="background: #2E3238; width: 100px; margin-right: 1%" (click)="registrar()" [disabled]="!this.firstFormGroup.valid">{{registrarActualizar}}</button>
+      <button mat-raised-button color="primary" style="background: #2E3238; width: 100px" (click)="limpiarCampos()" >{{limpiarCancelar}}</button>
+      <label *ngIf="ferror2" style="margin-left: 10px">* El usuario ya fue registrado</label>
+      <label *ngIf="ferror1" style="margin-left: 10px">* Boleta registrada 
+        <a (click)="errorDialog(0, participante)">
+          <mat-icon style="color: blue" matTooltip="Ver registro">remove_red_eye</mat-icon>
+        </a>
+      </label>
+      
+      <!--
+        <button mat-raised-button color="primary" style="background: #2E3238;" (click)="generarQR()">Generar codigo QR</button>
+        <div *ngIf="codigoQR">
+            <ngx-qrcode [qrc-value]="codigoQR" ></ngx-qrcode>
+        </div>
+      -->
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Despliegue para ver los registros
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <mat-form-field  style="width: 250px">
+              <input matInput placeholder="Buscar por ID, Boleta, Nombre" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
+            </mat-form-field>
+            
+            <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="busquedaRegistros()" ><mat-icon>search</mat-icon></button>
+              
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" style="width: 18%">ID</th>
+                    <th scope="col" style="width: 18%">Boleta</th>
+                    <th scope="col" style="width: 44%">Nombre</th>
+                    <th scope="col" style="width: 20%">opciones</th>
+                  </tr>
+                </thead>
+                
+            </table>
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-principal">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let pa of participantes">
+                            <td style="width: 18%">{{pa['_id']}}</td>
+                            <td style="width: 18%">{{pa['boleta']}}</td>
+                            <td style="width: 44%">{{pa['nombres']}} {{pa['apellidos']}}</td>
+                            <td style="width: 20%">
+                              <a  (click)="errorDialog(1, pa)">
+                                <mat-icon matTooltip="Información">remove_red_eye</mat-icon>
+                              </a>
+                              <a  (click)="editarRegistro(pa)">
+                                <mat-icon matTooltip="Editar" style="margin-left: 4%">edit</mat-icon>
+                              </a>
+                              <a style="margin-left: 4%" (click)="errorDialog(2, pa)">
+                                <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                              </a>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table> 
+              
+            </cdk-virtual-scroll-viewport>
+          </mat-expansion-panel>
+        </mat-accordion>
+          
+      </div>
+    </div>
+  </div>
+<div class="footer" style=" height: 200px"></div>
+  

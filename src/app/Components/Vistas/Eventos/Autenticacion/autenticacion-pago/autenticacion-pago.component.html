@@ -1,0 +1,98 @@
+<div class="header"><h1 style="margin-left: 150px">Autenticación: {{actividad.nombre_a}}</h1></div>
+  <div class="container">
+    <div class="form">
+      <div class="row">
+          <div class="col-md-9">
+            <mat-form-field>
+              <input matInput placeholder="Buscar" [(ngModel)]="id" (keyup.enter)="buscar()">
+            </mat-form-field>
+            <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="buscar()" ><mat-icon>search</mat-icon></button>
+            <label *ngIf="ferror" style="margin-left: 10px">* Sin registro</label>
+          </div>
+          <div class="col-md-3">
+              <button mat-raised-button color="primary" style="background: #2E3238; width: 100px; margin-right: 1%" (click)="obtenerActividad(idA)" >Actualizar</button>
+          </div>
+      </div>
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>Nombres: {{this.firstFormGroup.get('nombres').value}}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Apellidos: {{this.firstFormGroup.get('apellidos').value}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h5>ID: {{this.firstFormGroup.get('id').value}}</h5>
+        </div>
+        <div class="col-md-6">
+          <h5>Correo: {{this.firstFormGroup.get('correo').value}}</h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+            <h5>Categoría: {{this.firstFormGroup.get('categoria').value}}</h5>
+        </div>
+      </div>
+
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <button mat-raised-button color="primary" style="background: #2E3238; width: 100px; margin-right: 1%" (click)="autenticarParticipante(this.firstFormGroup.get('id').value)" [disabled]="!this.firstFormGroup.valid">Autenticar</button>
+      <button mat-raised-button color="primary" style="background: #2E3238; width: 100px" (click)="limpiarCampos()" [disabled]="!this.firstFormGroup.valid">Cancelar</button>
+      <label *ngIf="ferror1" style="margin-left: 10px">* El usuario ya fue autenticado</label>
+     
+      <mat-divider style="margin-top: 1%; margin-bottom: 2%"></mat-divider>
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Despliegue para ver los registros
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <mat-form-field  style="width: 250px" >
+              <input matInput placeholder="Buscar por ID" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
+            </mat-form-field>
+            <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="busquedaRegistros()" ><mat-icon>search</mat-icon></button>
+            <table class="table">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" style="width: 15%">ID</th>
+                    <th scope="col" style="width: 40%">Nombre</th>
+                    <th scope="col" style="width: 15%">Categoría</th>
+                    <th scope="col" style="width: 15%">Estado</th>
+                    <th scope="col" style="width: 15%">Opciones</th>
+                  </tr>
+                </thead>
+                
+            </table>
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-principal">
+                <table class="table">
+                    <tbody>
+                        <tr *ngFor="let pa of participantes">
+                            <td style="width: 15%">{{pa['_id']}}</td>
+                            <td style="width: 40%">{{pa['nombres']}} {{pa['apellidos']}}</td>
+                            <td style="width: 15%">{{pa['categoria']}}</td>
+                            <td style="width: 15%">
+                              <mat-icon style="color: green;" *ngIf="pa['autenticacion']; else noAutenticado" matTooltip="Autenticado">check_circle</mat-icon>
+                              <ng-template #noAutenticado><mat-icon style="color: blue;" matTooltip="No autenticado">highlight_off</mat-icon></ng-template>
+                            </td>
+                            <td style="width: 15%">
+                              <a style="margin-left: 4%" (click)="errorDialog(2, pa)">
+                                <mat-icon matTooltip="Eliminar">delete</mat-icon>
+                              </a>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table> 
+              
+            </cdk-virtual-scroll-viewport>
+          </mat-expansion-panel>
+        </mat-accordion>
+          
+      </div>
+    </div>
+  </div>
+<div class="footer" style=" height: 200px"></div>
+  
