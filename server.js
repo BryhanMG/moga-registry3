@@ -15,7 +15,7 @@ app.set('port', process.env.PORT || 3100);
 app.use(morgan('dev'));
 app.use (express.json());
 app.use(cors({origin: 'https://moga-registry.herokuapp.com/'}));
-
+ 
 //Routes
 app.use('/api/usuarios',require('./server/routes/usuarios.routes'));
 app.use('/api/eventos', require('./server/routes/eventos.routes'));
