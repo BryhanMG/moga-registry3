@@ -9,7 +9,7 @@ const app = express();
 
 app.use(express.static(__dirname+'/dist/moga-registry'));
 //settings
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 27017);
 
 //Midlewares
 app.use(morgan('dev'));
