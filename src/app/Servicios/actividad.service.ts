@@ -10,7 +10,7 @@ export class ActividadService {
   
   //localhost = "192.168.1.11";
   //localhost = "192.168.43.116";
-  readonly URL_API_EVENTO = 'http://'+Hostip+'/api/actividades';
+  readonly URL_API_EVENTO = Hostip+'/api/actividades';
 
   constructor(private http: HttpClient,
     ) { }

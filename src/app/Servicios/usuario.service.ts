@@ -6,7 +6,7 @@ import { Hostip } from "src/app/Modelos/hostip";
   providedIn: 'root'
 })
 export class UsuarioService {
-  readonly URL_API = 'http://'+Hostip+'/api/usuarios';
+  readonly URL_API = Hostip+'/api/usuarios';
   usuario: Usuario;
 
   constructor(private http: HttpClient) { }

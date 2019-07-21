@@ -7,7 +7,7 @@ import { Hostip } from "src/app/Modelos/hostip";
   providedIn: 'root'
 })
 export class AdministradorService {
-  readonly URL_API = 'http://'+Hostip+'/api/admins_reg';
+  readonly URL_API = Hostip+'/api/admins_reg';
   admin: Administrador;
   admins: Administrador[];
 

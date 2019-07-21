@@ -8,8 +8,8 @@ import { Hostip } from "src/app/Modelos/hostip";
 })
 export class LoginService {
   localhost = Hostip;
-  readonly URL_API_LOGIN = 'http://'+this.localhost+'/api/login';
-  readonly URL_API_ADMIN = 'http://'+this.localhost+'/api/admins_reg';
+  readonly URL_API_LOGIN = this.localhost+'/api/login';
+  readonly URL_API_ADMIN = this.localhost+'/api/admins_reg';
 
   constructor(private http: HttpClient) {
   }

@@ -10,7 +10,7 @@ export class RegistroService {
   localhost = Hostip;
   //localhost = "192.168.1.11";
   //localhost = "192.168.43.116";
-  readonly URL_API_EVENTO = 'http://'+this.localhost+'/api/eventos_r';
+  readonly URL_API_EVENTO = this.localhost+'/api/eventos_r';
 
   conteo: number;
 
