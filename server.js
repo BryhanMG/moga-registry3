@@ -7,7 +7,7 @@ const { mongoose } = require('./server/database')
 const app = express();
 
 
-app.use(express.static(__dirname+'/src'));
+app.use(express.static(__dirname+'/dist/moga-registry'));
 //settings
 app.set('port', process.env.PORT || 5000);
 
@@ -36,7 +36,7 @@ app.listen(app.get('port'), () => {
 
 //PathLocationStrategy
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/src/index.html')) 
+    res.sendFile(path.join(__dirname + '/dist/moga-registry/index.html')) 
  }); 
  
  console.log('Console escuchando!');
