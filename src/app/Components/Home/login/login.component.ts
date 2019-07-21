@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.r1Subsciption.unsubscribe();
   }
-
+ 
   login(){
     //console.log("Hola mundo");
     if (this.formGroup.valid) {
