@@ -58,11 +58,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   login(){
-    console.log("Hola mundo");
+    //console.log("Hola mundo");
     if (this.formGroup.valid) {
       this.loginService.getAdmin(this.formGroup.get('idUser').value,this.formGroup.get('password').value)
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           if (res[0]) {
             //console.log(res[0]);
             let u: User = {username: res[0]['_id']};;        
