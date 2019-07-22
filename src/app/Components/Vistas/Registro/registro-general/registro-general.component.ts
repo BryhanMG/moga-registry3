@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { UsuarioService } from 'src/app/Servicios/usuario.service';
 import { Usuario } from 'src/app/Modelos/usuario';
 import { EliminarUsuarioDialogComponent } from '../../MisDialogs/eliminar-usuario-dialog/eliminar-usuario-dialog.component';
+import { ImportRegistrosDialogComponent } from '../../MisDialogs/import-registros-dialog/import-registros-dialog.component';
 
 @Component({
   selector: 'app-registro-general',
@@ -151,6 +152,15 @@ export class RegistroGeneralComponent implements OnInit {
     });
   }
 
+  importDialog(): void {
+    const dialogRef = this.dialog.open(ImportRegistrosDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      //console.log(result);
+      //console.log('The dialog was closed');
+      
+    });
+  }
  
 
 }

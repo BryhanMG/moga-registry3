@@ -35,6 +35,7 @@ import { CambiarPasswordDialogComponent } from './Components/Vistas/MisDialogs/c
 import { AddCamposDialogComponent } from './Components/Vistas/MisDialogs/add-campos-dialog/add-campos-dialog.component';
 import { NotificacionBoletaDialogComponent } from './Components/Vistas/MisDialogs/notificacion-boleta-dialog/notificacion-boleta-dialog.component';
 import { EliminarAsistenteLibreDialogComponent } from './Components/Vistas/MisDialogs/eliminar-asistente-libre-dialog/eliminar-asistente-libre-dialog.component';
+import { ImportRegistrosDialogComponent } from './Components/Vistas/MisDialogs/import-registros-dialog/import-registros-dialog.component';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { EliminarAsistenteLibreDialogComponent } from './Components/Vistas/MisDi
     AutenticacionPagoComponent,
     ErrorLogoutComponent,
     EliminarAsistenteLibreDialogComponent,
+    ImportRegistrosDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,8 @@ import { EliminarAsistenteLibreDialogComponent } from './Components/Vistas/MisDi
     CambiarPasswordDialogComponent,
     AddCamposDialogComponent,
     NotificacionBoletaDialogComponent,
-    EliminarAsistenteLibreDialogComponent
+    EliminarAsistenteLibreDialogComponent,
+    ImportRegistrosDialogComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
