@@ -98,7 +98,8 @@
               </div>
             </div>
             <div style="margin-top: 2%">
-              <button mat-raised-button class="base" color="primary" (click)="mover()">Siguiente</button>
+              <!--<button mat-raised-button class="base" color="primary" (click)="mover()">Siguiente</button>-->
+              <button mat-raised-button matStepperNext class="base" color="primary" >Siguiente</button>
             </div>
           </form>
         </mat-step>
@@ -230,6 +231,9 @@
                               <mat-option value="2">Especial de pago</mat-option>
                             </mat-select>
                           </mat-form-field>
+                        <a (click)="InfoCampoDialog()">
+                          <mat-icon style="margin-left: 2%; font-size: 28px" matTooltip="Información del campo">info</mat-icon>
+                        </a>
                         </div>
                     </div>
                     <div class="row">

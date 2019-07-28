@@ -17,6 +17,7 @@ import { AddCamposDialogComponent } from '../../MisDialogs/add-campos-dialog/add
 import { RelojService } from 'src/app/Servicios/reloj.service';
 import { UserService } from 'src/app/Servicios/user.service';
 import { Router } from '@angular/router';
+import { TipoActividadDialogComponent } from '../../MisDialogs/tipo-actividad-dialog/tipo-actividad-dialog.component';
 
 @Component({
   selector: 'app-crear',
@@ -488,6 +489,14 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
         this.evento.campos = result as [];
         console.log(this.evento.campos);  
       }
+      console.log('The dialog was closed');
+    });
+  }
+
+  InfoCampoDialog(): void {
+    const dialogRef = this.dialog.open(TipoActividadDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }

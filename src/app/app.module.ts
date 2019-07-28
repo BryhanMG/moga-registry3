@@ -36,6 +36,7 @@ import { AddCamposDialogComponent } from './Components/Vistas/MisDialogs/add-cam
 import { NotificacionBoletaDialogComponent } from './Components/Vistas/MisDialogs/notificacion-boleta-dialog/notificacion-boleta-dialog.component';
 import { EliminarAsistenteLibreDialogComponent } from './Components/Vistas/MisDialogs/eliminar-asistente-libre-dialog/eliminar-asistente-libre-dialog.component';
 import { ImportRegistrosDialogComponent } from './Components/Vistas/MisDialogs/import-registros-dialog/import-registros-dialog.component';
+import { TipoActividadDialogComponent } from './Components/Vistas/MisDialogs/tipo-actividad-dialog/tipo-actividad-dialog.component';
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { ImportRegistrosDialogComponent } from './Components/Vistas/MisDialogs/i
     ErrorLogoutComponent,
     EliminarAsistenteLibreDialogComponent,
     ImportRegistrosDialogComponent,
+    TipoActividadDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +88,8 @@ import { ImportRegistrosDialogComponent } from './Components/Vistas/MisDialogs/i
     AddCamposDialogComponent,
     NotificacionBoletaDialogComponent,
     EliminarAsistenteLibreDialogComponent,
-    ImportRegistrosDialogComponent
+    ImportRegistrosDialogComponent,
+    TipoActividadDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
