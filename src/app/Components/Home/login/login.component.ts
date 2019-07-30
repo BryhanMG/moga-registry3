@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.userLogged) {
       this.router.navigateByUrl('/moga');
     }
-  }
+  }z
 
   ngOnDestroy(): void {
     this.r1Subsciption.unsubscribe();
