@@ -13,15 +13,21 @@
               <mat-form-field >
                 <input matInput placeholder="Buscar evento" [(ngModel)]="entrada" (keyup.enter)="buscar()">
               </mat-form-field>
-              <button mat-mini-fab color="primary" style="background: #2E3238" (click)="buscar()"><mat-icon>search</mat-icon></button>
+              <button mat-mini-fab color="primary" style="background: #2E3238" 
+              (click)="buscar()"
+              matTooltip="Buscar evento"><mat-icon>search</mat-icon></button>
             </div>
             <div class="col-md-2">
-                <button mat-raised-button color="primary" style="background: #2E3238; width: 100%;" routerLink="/crear">+ Nuevo</button>
+                <button mat-raised-button color="primary" style="background: #2E3238; width: 100%;" 
+                  routerLink="/crear"
+                  matTooltip="Crear evento">+ Nuevo</button>
             </div>
           </div>
         </div>
         <div class="container">
-          <button mat-raised-button color="primary" style="background: #2E3238;" (click)="evaluarEventos()">Actualizar</button>
+          <button mat-raised-button color="primary" style="background: #2E3238;" 
+          (click)="evaluarEventos()"
+          matTooltip="Actualizar lista de eventos">Actualizar</button>
         </div>
         
         <!--Lista de elementos-->
@@ -87,9 +93,16 @@
                         <div class="col-sm-6">Fecha Fin: {{evento.fecha_f.substring(0, 10)}} ---- {{evento.fecha_f.substring(11, 16)}} Hrs.</div>
                       </div>
                       <br>
-                      <button class="button-size" mat-raised-button color="primary" routerLink="/moga/resumen/{{evento._id}}">Acceder</button>
-                      <button class="button-size" mat-raised-button color="primary" [disabled]="!(evento.estado==='E')" routerLink="/editar-evento/{{evento._id}}">Editar</button>
-                      <button class="button-size" mat-raised-button color="primary" style="background: crimson" [disabled]="!(evento.estado==='A')">Terminar</button>
+                      <button class="button-size" mat-raised-button color="primary" 
+                        routerLink="/moga/resumen/{{evento._id}}"
+                        matTooltip="Información del evento">Acceder</button>
+                      <button class="button-size" mat-raised-button color="primary" 
+                        [disabled]="!(evento.estado==='E')" 
+                        routerLink="/editar-evento/{{evento._id}}"
+                        matTooltip="Editar evento">Editar</button>
+                      <button class="button-size-terminar" mat-raised-button color="primary" 
+                        [disabled]="!(evento.estado==='A')"
+                        matTooltip="Terminar evento">Terminar</button>
                       
                       
                   </mat-expansion-panel>

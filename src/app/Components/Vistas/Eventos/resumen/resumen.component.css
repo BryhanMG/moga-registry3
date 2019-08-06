@@ -7,8 +7,17 @@
     box-shadow: 0px 1px 28px -3px rgba(169,170,171,1);
     
   }
+  .button-size {
+    background: #2E3238;
+    margin-right: 1%;
+    width: 90%;
+  }
 
-
+  .button-size-terminar {
+    background: crimson;
+    margin-right: 1%;
+    width: 90%;
+  }
 
   .example-viewport {
       height: 225px;
