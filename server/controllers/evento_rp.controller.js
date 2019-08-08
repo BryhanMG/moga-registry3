@@ -47,6 +47,18 @@ EventoRController.updateEvento = async(req, res)=>{
     res.json({status: 'Estado del evento actualizados'});
 }
 
+//Actualizar terminar evento
+EventoRController.updateTerminar = async(req, res)=>{
+    
+    const {id} = req.params;
+    const eventoR = {
+        fecha_f: req.body.fecha_f,
+        estado: req.body.estado
+    };
+    await EventoR.findByIdAndUpdate(id, {$set: eventoR}, {new: true});
+    res.json({status: 'Evento terminado'});
+}
+
 //Obtener un particioante especifico por su id
 EventoRController.getParticipante = async(req, res)=>{
     const id = req.params.id;

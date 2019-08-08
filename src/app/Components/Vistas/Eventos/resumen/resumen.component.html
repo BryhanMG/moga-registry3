@@ -49,7 +49,8 @@
                 matTooltip="Editar evento">Editar</button></div>
               <div class="col-md-5"><button class="button-size-terminar" mat-raised-button color="primary"
                 [disabled]="!(estado==='A')"
-                matTooltip="Terminar evento">Terminar</button></div>
+                matTooltip="Terminar evento"
+                (click)="terminarDialog(idEvento, nombre_er)">Terminar</button></div>
             </div>
           </div>
           

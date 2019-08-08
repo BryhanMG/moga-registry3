@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 
 import { EventoRegistro } from "src/app/Modelos/eventoRegistro";
 
@@ -6,6 +7,9 @@ import { RegistroService } from "src/app/Servicios/registro.service";
 import {RelojService} from 'src/app/Servicios/reloj.service';
 
 import { UserService } from 'src/app/Servicios/user.service';
+import { TerminarEventoDialogComponent } from '../../MisDialogs/terminar-evento-dialog/terminar-evento-dialog.component';
+import { ActividadService } from 'src/app/Servicios/actividad.service';
+import { Actividad } from 'src/app/Modelos/actividad';
 
 @Component({
   selector: 'app-informacion',
@@ -27,7 +31,9 @@ export class InformacionComponent implements OnInit, OnDestroy {
 
   constructor(private reloj: RelojService,
     private eventoService: RegistroService,
-    private userService: UserService
+    private userService: UserService,
+    public dialog: MatDialog,
+    private actividadService: ActividadService,
     ) { 
       
       /*
@@ -136,5 +142,47 @@ export class InformacionComponent implements OnInit, OnDestroy {
     }else{
       return 'De pago';
     }
+  }
+
+  terminarEvento(evento: EventoRegistro){
+    //console.log(this.evento);
+    evento.estado = 'T';
+    var f = new Date();
+    f.setHours(f.getHours()-6);
+    evento.fecha_f = f.toISOString();
+    this.eventoService.updateTerminar(evento)
+      .subscribe(res => {
+        //console.log(res);
+        this.actividadService.getActividades(evento._id)
+          .subscribe(res => {
+            var la = res as Actividad[];
+            for (const actividad of la) {
+              //console.log(actividad);  
+              if (actividad["estado"] === "A" || actividad["estado"] === "E") {
+                actividad["estado"] = "T";
+                actividad["fecha_f"] = f.toISOString();
+                this.actividadService.updateActividad(actividad["_id"], actividad)
+                .subscribe(res => {
+                  //console.log(res);
+                });
+              }
+            }
+          });
+        
+      });
+      
+  }
+
+  //Dialog para terminar el evento
+  terminarDialog(evento: EventoRegistro): void {
+    const dialogRef = this.dialog.open(TerminarEventoDialogComponent, {
+      data: {id: evento['_id'], nombre: evento['nombre_er']}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.terminarEvento(evento);
+      }
+    });
   }
 }

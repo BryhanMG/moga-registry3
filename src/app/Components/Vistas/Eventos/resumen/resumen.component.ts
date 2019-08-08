@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
 
 import { RegistroService } from "src/app/Servicios/registro.service";
 import { ActividadService } from "src/app/Servicios/actividad.service";
@@ -7,6 +8,7 @@ import {RelojService} from 'src/app/Servicios/reloj.service';
 
 import { EventoRegistro } from 'src/app/Modelos/eventoRegistro';
 import { ActividadNuevaLibre, Actividad } from "src/app/Modelos/actividad";
+import { TerminarEventoDialogComponent } from '../../MisDialogs/terminar-evento-dialog/terminar-evento-dialog.component';
 
 @Component({
   selector: 'app-resumen',
@@ -33,12 +35,12 @@ export class ResumenComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private eventoService: RegistroService,
     private actividadService: ActividadService,
-    
+    public dialog: MatDialog,    
     ) {
       
       this.r1Subsciption = this.reloj.time.subscribe((now: Date) => {
         this.tiempo = now;
-        console.log("tiempo Resumen", this.tiempo);
+        //console.log("tiempo Resumen", this.tiempo);
         this.idEvento = this.route.snapshot.paramMap.get('id')
         this.comprobarActividadesEspera();
         this.obtenerEvento(this.idEvento);
@@ -128,6 +130,42 @@ export class ResumenComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  terminarEvento(){
+    //console.log(this.evento);
+    this.evento.estado = 'T';
+    var f = new Date();
+    f.setHours(f.getHours()-6);
+    this.evento.fecha_f = f.toISOString();
+    this.eventoService.updateTerminar(this.evento)
+      .subscribe(res => {
+        //console.log(res);
+        this.obtenerEvento(this.idEvento);
+        for (const actividad of this.listaActividades) {
+          if (actividad["actividad"]["estado"] === "A" || actividad["estado"] === "E") {
+            actividad["actividad"]["estado"] = "T";
+            actividad["actividad"]["fecha_f"] = f.toISOString();
+            this.actividadService.updateActividad(actividad["id"], actividad["actividad"])
+            .subscribe(res => {
+              this.obtenerActividades(this.idEvento);
+            });
+          }
+        }
+      });
+      
+  }
+  //Dialog para terminar el evento
+  terminarDialog(id: String, nombre: String): void {
+    const dialogRef = this.dialog.open(TerminarEventoDialogComponent, {
+      data: {id: id, nombre: nombre}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.terminarEvento();
+      }
+    });
   }
 
 }

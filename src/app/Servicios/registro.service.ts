@@ -45,6 +45,11 @@ export class RegistroService {
     return this.http.put(this.URL_API_EVENTO+`/estado/${evento._id}`, evento);
   }
 
+  //Actualizar/Terminar evento
+  updateTerminar(evento: EventoRegistro){
+    return this.http.put(this.URL_API_EVENTO+`/terminar/${evento._id}`, evento);
+  }
+
   //Agregar un participante
   addParticipate(id:String, participantes: Object){
     console.log(participantes);

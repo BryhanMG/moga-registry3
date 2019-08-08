@@ -13,5 +13,6 @@ router.get('/get_bo/:id/:bo', EventoR.getParticipanteBoleta);
 router.put('/add/:id', EventoR.addParticipante);
 router.put('/quit/:id', EventoR.quitParticipante);
 router.put('/estado/:id', EventoR.updateEstado);
+router.put('/terminar/:id', EventoR.updateTerminar);
 
 module.exports = router;

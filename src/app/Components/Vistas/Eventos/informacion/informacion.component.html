@@ -102,7 +102,8 @@
                         matTooltip="Editar evento">Editar</button>
                       <button class="button-size-terminar" mat-raised-button color="primary" 
                         [disabled]="!(evento.estado==='A')"
-                        matTooltip="Terminar evento">Terminar</button>
+                        matTooltip="Terminar evento" 
+                        (click)="terminarDialog(evento)">Terminar</button>
                       
                       
                   </mat-expansion-panel>

@@ -37,6 +37,7 @@ import { NotificacionBoletaDialogComponent } from './Components/Vistas/MisDialog
 import { EliminarAsistenteLibreDialogComponent } from './Components/Vistas/MisDialogs/eliminar-asistente-libre-dialog/eliminar-asistente-libre-dialog.component';
 import { ImportRegistrosDialogComponent } from './Components/Vistas/MisDialogs/import-registros-dialog/import-registros-dialog.component';
 import { TipoActividadDialogComponent } from './Components/Vistas/MisDialogs/tipo-actividad-dialog/tipo-actividad-dialog.component';
+import { TerminarEventoDialogComponent } from './Components/Vistas/MisDialogs/terminar-evento-dialog/terminar-evento-dialog.component';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { TipoActividadDialogComponent } from './Components/Vistas/MisDialogs/tip
     EliminarAsistenteLibreDialogComponent,
     ImportRegistrosDialogComponent,
     TipoActividadDialogComponent,
+    TerminarEventoDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +92,7 @@ import { TipoActividadDialogComponent } from './Components/Vistas/MisDialogs/tip
     EliminarAsistenteLibreDialogComponent,
     ImportRegistrosDialogComponent,
     TipoActividadDialogComponent,
+    TerminarEventoDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
