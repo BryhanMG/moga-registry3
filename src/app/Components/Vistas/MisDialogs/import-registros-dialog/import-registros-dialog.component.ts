@@ -44,7 +44,12 @@ export class ImportRegistrosDialogComponent implements OnInit {
     }
     reader.readAsBinaryString(file);
   }
-  subirDatos(){
+
+  ferror = false;
+  fpass = false;
+  listaErrorInsert = [];
+  mensajeError = "";
+  async subirDatos(){
     for (const hoja in this.datos) {
       //console.log(hoja);
       for (const user of this.datos[hoja.toString()]) {
@@ -53,9 +58,28 @@ export class ImportRegistrosDialogComponent implements OnInit {
         //console.log(u);
         this.usuarioService.postUsuario(u)
           .subscribe(res => {
+            if (res === 'E001') {
+              this.listaErrorInsert.push(u);
+            }
             console.log(res);
           });
       }
     }
+    await this.delay(1000);
+    if (this.listaErrorInsert.length == 0) {
+      this.fpass = true;
+      this.mensajeError = "¡Finalizado con éxito!"
+    }else{
+      this.ferror = true;
+      this.mensajeError = "¡Finalizado con error!"
+    }
+  }
+
+  private delay(ms: number): Promise<boolean> {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(true);
+      }, ms);
+    });
   }
 }

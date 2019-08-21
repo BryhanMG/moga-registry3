@@ -9,11 +9,14 @@ usuarioController.getUsuarios = async (req, res) => {
 
 usuarioController.crearUsuario = async(req, res)=>{
     const usuario = new Usuario(req.body);
-    console.log(usuario);
-    await usuario.save();
-    res.json({
-        'status': 'Usuario guardado'
-    });
+    //console.log(usuario);
+    try {
+        await usuario.save();
+        res.json("Usuario creado");    
+    } catch (error) {
+        console.log(error);
+        res.json("E001")
+    }
 };
 
 usuarioController.getUsuario =  async(req, res)=>{
