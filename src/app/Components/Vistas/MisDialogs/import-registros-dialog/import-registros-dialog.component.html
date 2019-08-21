@@ -5,3 +5,34 @@
 <mat-divider style="margin-bottom: 5px; margin-top: 5px"></mat-divider>
 <button mat-raised-button color="primary" style="background: #2E3238; margin-right: 1%" (click)="subirDatos()">Importar</button>
 <button mat-raised-button color="primary" style="background: #2E3238; margin-right: 1%" (click)="onNoClick()">Cancelar</button>
+<mat-icon style="color: green" *ngIf="fpass">check_circle</mat-icon> 
+<mat-icon style="color: red" *ngIf="ferror">clear</mat-icon>
+{{mensajeError}}
+<mat-divider style="margin-bottom: 5px; margin-top: 5px"></mat-divider>
+<mat-accordion *ngIf="ferror">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Errores en el import de los registros
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>- Los siguientes registros tienen un error de coincidencia.<br>
+            - Los registros ya existen en la base de datos.</p>
+        <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of listaErrorInsert">
+                        <td>{{user._id}}</td>
+                        <td>{{user.nombres}} {{user.apellidos}}</td>
+                    </tr>
+                </tbody>
+            </table>    
+        </cdk-virtual-scroll-viewport>
+    </mat-expansion-panel>
+</mat-accordion>

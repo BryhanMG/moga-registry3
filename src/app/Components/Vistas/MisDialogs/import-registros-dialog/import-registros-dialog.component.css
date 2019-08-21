@@ -1,0 +1,7 @@
+.example-viewport {
+    height: 300px;
+    width: 100%;
+    border: 5px solid black;
+    border-radius: 20px;
+    border-color: #262B38;
+}
