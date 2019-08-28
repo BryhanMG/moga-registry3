@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from "@angular/http";
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -94,7 +95,9 @@ import { TerminarEventoDialogComponent } from './Components/Vistas/MisDialogs/te
     TipoActividadDialogComponent,
     TerminarEventoDialogComponent,
   ],
-  providers: [],
+  providers: [
+    {provide: LocationStrategy, useClass:HashLocationStrategy}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
