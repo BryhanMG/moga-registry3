@@ -15,6 +15,7 @@ import { AutenticacionComponent } from './Components/Vistas/Eventos/Autenticacio
 import { RegistroEspecialComponent } from './Components/Vistas/Eventos/Registro/registro-especial/registro-especial.component';
 import { AutenticacionPagoComponent } from './Components/Vistas/Eventos/Autenticacion/autenticacion-pago/autenticacion-pago.component';
 import { ErrorLogoutComponent } from './Components/Errores/error-logout/error-logout.component';
+import { InformeComponent } from './Components/Vistas/Eventos/informe/informe.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,7 @@ const routes: Routes = [
   {path: 'crear', component: CrearComponent},
   {path: 'editar-evento/:id', component: EditarComponent},
   {path: 'error-logout', component: ErrorLogoutComponent},
+  {path: 'informe/:id', component: InformeComponent},
 ];
 
 @NgModule({

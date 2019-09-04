@@ -1,0 +1,115 @@
+<div class="container">
+    <div class="form" style="margin-top: 3%; margin-bottom: 3%">
+        <p>Ingrese el nombre del lugar donde se realizó el evento:</p>
+        <mat-form-field>
+            <input matInput placeholder="Lugar del evento" [(ngModel)]="entrada" (keyup.enter)="guardarLocalidad()">
+        </mat-form-field>
+        <button mat-raised-button color="primary" style="margin-left: 2%" 
+            [disabled]="(entrada == null)"
+            (click)="guardarLocalidad()">Guardar</button>
+        <br>
+        <button mat-raised-button color="primary" style="margin-bottom: 2%"  
+            [disabled]="(lugar === '----------')"
+            (click)="descargarPDF()">Descargar informe</button>
+    </div>
+    
+    
+    <div class="form">
+        <div #informe style="background: white; padding: 3%">
+            <div class="row">
+                <div class="col-md-6">
+                    <img style="width: 60%; height: 100%;" 
+                    src="../../../../../assets/imgs/MOGA_registry_logo.png">
+                </div>
+                <div class="col-md-6">
+                    <h5 style="margin-left: 10%">{{lugar}}, {{fecha.getDate()}} de {{obtenerMes(fecha.getMonth())}} del {{fecha.getFullYear()}} </h5>
+                </div>
+            </div>
+            <div>
+                <p>En este informe se presentan los resultados del evento con la siguiente información: </p>
+            </div>
+            <div>
+                <mat-divider></mat-divider>
+                <p>Informe del evento de registro con código {{idEvento}}</p>
+                <p>Nombre del evento: {{evento.nombre_er}}</p>
+                <p>Tipo de evento: {{tipoEvento(evento.tipo)}}</p>
+                <p>Fecha y hora de inicio: {{evento.fecha_i.substring(0, 10)}} ---- {{evento.fecha_i.substring(11, 16)}} Hrs.</p>
+                <p>Fecha y hora de finalización: {{evento.fecha_f.substring(0, 10)}} ---- {{evento.fecha_f.substring(11, 16)}} Hrs.</p>
+                <mat-divider></mat-divider>
+                <div *ngIf="evento.tipo === 'P'; else libre">
+                    <div *ngFor="let ac of listaActividades" >
+                        <h4>Asistentes: {{ac.actividad.nombre_a}}</h4>
+                        <h5>Tipo: {{tipoActividad(ac.actividad.tipo)}}</h5>
+                        <table class="table" >
+                            <thead class="thead-dark">
+                                <tr>
+                                <th scope="col" style="width: 25%">ID</th>
+                                <th scope="col" style="width: 50%">Nombre</th>
+                                <th scope="col" style="width: 25%" *ngIf="ac.actividad.tipo == 1; else pago">Boleta</th>
+                                <ng-template #pago>
+                                    <th scope="col" style="width: 25%">Correo</th>
+                                </ng-template>
+                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of ac.asistentes">
+                                    <td style="width: 25%">{{a._id}}</td>
+                                    <td style="width: 50%">{{a.nombres}} {{a.apellidos}}</td>
+                                    <td style="width: 25%" *ngIf="ac.actividad.tipo == 1; else pago2">{{a.boleta}}</td>
+                                    <ng-template #pago2>
+                                        <td style="width: 25%" >{{a.correo}}</td>
+                                    </ng-template>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>---------------------------------------------------------------------------</p>    
+                    </div>
+                </div>
+                <ng-template #libre>
+                    <div *ngFor="let ac of listaActividades" >
+                        <h4>Asistentes: {{ac.actividad.nombre_a}}</h4>
+                        <table class="table" >
+                            <thead class="thead-dark">
+                                <tr>
+                                <th scope="col" style="width: 60%">Nombre</th>
+                                <th scope="col" style="width: 40%">Correo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let a of ac.asistentes">
+                                    
+                                    <td style="width: 50%">{{a.nombre}}</td>
+                                    <td style="width: 25%">{{a.correo}}</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>---------------------------------------------------------------------------</p>    
+                    </div>
+                </ng-template>
+                
+                
+                <div *ngIf="evento.tipo === 'P'">
+                    <h3>Participantes inscritos</h3>
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col" style="width: 25%">ID</th>
+                            <th scope="col" style="width: 50%">Nombre</th>
+                            <th scope="col" style="width: 25%">Correo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of evento['participantes']">
+                                <td style="width: 25%">{{p._id}}</td>
+                                <td style="width: 50%">{{p.nombres}} {{p.apellidos}}</td>
+                                <td style="width: 25%">{{p.correo}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

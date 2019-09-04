@@ -37,6 +37,11 @@
                   </div>
               </ng-template>
             </div>
+            <div class="col-sm-3"><button class="button-size" mat-raised-button color="primary"  style="margin-top: 5%"
+              routerLink="/informe/{{evento._id}}" 
+              [disabled]="!(evento.estado==='T')"
+              matTooltip="Informe del evento">Ver informe</button>
+            </div>
         </div>
         <mat-divider style="width: 95%; margin-bottom: 3px"></mat-divider>
         <mat-divider style="width: 95%; margin-bottom: 5px"></mat-divider>
