@@ -6,6 +6,8 @@ import { Actividad } from 'src/app/Modelos/actividad';
 import { ActivatedRoute } from '@angular/router';
 
 import jsPDF from 'jspdf';
+import { User } from 'src/app/Modelos/user';
+import { UserService } from 'src/app/Servicios/user.service';
 
 @Component({
   selector: 'app-informe',
@@ -14,6 +16,7 @@ import jsPDF from 'jspdf';
 })
 export class InformeComponent implements OnInit {
   @ViewChild('informe', {static: true}) informe: ElementRef;
+  userLogged: User;
 
   entrada: String;
   lugar: String = "----------";
@@ -23,22 +26,25 @@ export class InformeComponent implements OnInit {
   evento = new EventoRegistro();
   listaActividades = [];
   fecha = new Date();
+  fechaA = new Date();
 
   constructor(private eventoService: RegistroService,
     private actividadService: ActividadService,
-    private route: ActivatedRoute,) { 
+    private route: ActivatedRoute,
+    private userService: UserService,) {
       this.idEvento = this.route.snapshot.paramMap.get('id');
       this.obtenerEvento(this.idEvento);
       this.obtenerActividades(this.idEvento);
     }
 
   ngOnInit() {
+    this.userLogged = this.userService.getUserLoggedIn();
   }
 
   obtenerEvento(id){
     this.eventoService.getEvento(id)
       .subscribe(res =>{
-        
+
         if (res != null) {
           this.evento = res as EventoRegistro;
           this.fecha =  new Date(this.evento.fecha_f.toString());
@@ -55,11 +61,11 @@ export class InformeComponent implements OnInit {
         this.listaActividades = [];
         for (const a of la) {
           this.obtenerAsistentes(a._id, a);
-        }     
-        
+        }
+
       });
 
-    
+
   }
 
   obtenerAsistentes(id, a){
@@ -77,7 +83,7 @@ export class InformeComponent implements OnInit {
               }
             }
             asistentes.push({nombre: cat, lista: ar});
-            
+
           }
 
           var ar2 = [];
@@ -88,16 +94,16 @@ export class InformeComponent implements OnInit {
           }
           asistentes.push({nombre: 'Sin asignar', lista: ar2});
           this.listaActividades.push({id: id, actividad: a, asistentes: asistentes});
-          //console.log(this.listaActividades[0]['asistentes']);  
+          //console.log(this.listaActividades[0]['asistentes']);
         }else{
           this.listaActividades.push({id: id, actividad: a, asistentes: res[0]['asistentes']});
         }
-        //console.log(this.listaActividades);  
-        
+        //console.log(this.listaActividades);
+
       });
   }
 
-  
+
 
   guardarLocalidad(){
     this.lugar = this.entrada;
@@ -107,40 +113,40 @@ export class InformeComponent implements OnInit {
   obtenerMes(op: number){
     switch (op) {
       case 1:
-          return "enero"
+          return "enero";
         break;
       case 2:
-          return "febrero"
+          return "febrero";
         break;
       case 3:
-          return "marzo"
+          return "marzo";
         break;
       case 4:
-          return "abril"
+          return "abril";
         break;
       case 5:
-          return "mayo"
+          return "mayo";
         break;
       case 6:
-          return "junio"
+          return "junio";
         break;
       case 7:
-          return "julio"
+          return "julio";
         break;
       case 8:
-          return "agosto"
+          return "agosto";
         break;
       case 9:
-          return "septiembre"
+          return "septiembre";
         break;
       case 10:
-          return "octubre"
+          return "octubre";
         break;
       case 11:
-          return "noviembre"
+          return "noviembre";
         break;
       case 12:
-          return "diciembre"
+          return "diciembre";
         break;
       default:
         break;
@@ -157,7 +163,7 @@ export class InformeComponent implements OnInit {
 
   tipoActividad(op){
     if(op == 1){
-      return "Generla";
+      return "General";
     }else{
       return "Especial de pago";
     }
@@ -174,11 +180,11 @@ export class InformeComponent implements OnInit {
     var options = {
       pagesplit: true
     };
-    
+
     doc.addHTML(this.informe.nativeElement, options,function() {
       doc.save('informe_'+id+'.pdf');
       });
-    
+
   }
-  
+
 }

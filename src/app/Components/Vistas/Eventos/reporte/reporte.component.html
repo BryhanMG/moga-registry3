@@ -1,0 +1,121 @@
+
+
+<div class="container">
+  <button mat-raised-button color="primary" style="margin-top: 2%; margin-bottom: 2%"
+    (click)="descargarPDF()">Descargar reporte</button>
+  <div class="form">
+    <div #informe style="background: white; padding: 3%">
+        <div class="row">
+            <div class="col-md-6">
+                <img style="width: 50%; height: 100%;"
+                src="../../../../../assets/imgs/MOGA_registry_logo.png">
+            </div>
+        </div>
+        <div>
+            <p>Este reporte presenta la información de la actividad.</p>
+        </div>
+        <div>
+            <mat-divider></mat-divider>
+            <p style="margin-bottom: 0%; padding-bottom: 0%">Código del evento: {{actividad.id_er}}</p>
+            <p style="margin-bottom: 0%; padding-bottom: 0%">Nombre de la actividad: {{actividad.nombre_a}}</p>
+            <div class="row" >
+                <div class="col-md-6">
+                    <p style="margin-bottom: 0%; padding-bottom: 0%">Tipo de actividad: {{tipoActividad(actividad.tipo)}}</p>
+                </div>
+                <div class="col-md-6">
+                    <p *ngIf="actividad.tipo == 2" style="margin-bottom: 0%; padding-bottom: 0%">Monto: Q{{actividad.monto}}</p>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                  <p>Fecha y hora de inicio: {{actividad.fecha_i.substring(0, 10)}} ---- {{actividad.fecha_i.substring(11, 16)}} Hrs.</p>
+              </div>
+              <div class="col-md-6">
+                  <p>Fecha y hora de finalización: {{actividad.fecha_f.substring(0, 10)}} ---- {{actividad.fecha_f.substring(11, 16)}} Hrs.</p>
+              </div>
+            </div>
+            <mat-divider></mat-divider>
+
+            <div *ngIf="actividad.tipo == 0; else pago">
+              <table class="table" >
+                <thead class="thead-dark">
+                    <tr>
+                    <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                    <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let a of actividad.asistentes">
+                        <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.nombre}}</td>
+                        <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            <ng-template #pago>
+              <div *ngIf="actividad.tipo == 1; else especial">
+                  <div *ngFor="let cat of asistentesCat">
+                      <h4>Categoría: {{cat.nombre}}</h4>
+                      <table class="table" >
+                          <thead class="thead-dark">
+                              <tr>
+                              <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
+                              <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                              <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
+
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let a of cat.lista">
+                                  <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a._id}}</td>
+                                  <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.nombres}} {{a.apellidos}}</td>
+                                  <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+              <ng-template #especial>
+                  <table class="table" >
+                      <thead class="thead-dark">
+                          <tr>
+                          <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
+                          <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                          <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
+
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let a of actividad.asistentes">
+
+                              <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a._id}}</td>
+                              <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombres}} {{a.apellidos}}</td>
+                              <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
+
+                          </tr>
+                      </tbody>
+                  </table>
+              </ng-template>
+            </ng-template>
+            <br>
+            <br>
+            <span class="float-left">
+              <p>Responsable: {{userLogged.username}}</p>
+            </span>
+            <span class="float-right">
+              <p>Fecha de descarga: {{fechaA.getDate()}} de {{obtenerMes(fechaA.getMonth())}} del {{fechaA.getFullYear()}}</p>
+            </span>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+

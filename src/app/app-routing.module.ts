@@ -16,12 +16,13 @@ import { RegistroEspecialComponent } from './Components/Vistas/Eventos/Registro/
 import { AutenticacionPagoComponent } from './Components/Vistas/Eventos/Autenticacion/autenticacion-pago/autenticacion-pago.component';
 import { ErrorLogoutComponent } from './Components/Errores/error-logout/error-logout.component';
 import { InformeComponent } from './Components/Vistas/Eventos/informe/informe.component';
+import { ReporteComponent } from './Components/Vistas/Eventos/reporte/reporte.component';
 
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: '', redirectTo:'/login', pathMatch: 'full'},
-  {path: 'moga', component: MenuSidenavComponent, 
+  {path: 'moga', component: MenuSidenavComponent,
     children:[
       {path: '', component: HomeComponent},
       {path: 'eventos', component: InformacionComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
       {path: 'registro-pago/:id', component: RegistroPagoComponent},
       {path: 'registro-especial/:idE/:id', component: RegistroEspecialComponent},
       {path: 'autenticar/:id', component: AutenticacionComponent},
+      {path: 'reporte/:id', component: ReporteComponent},
       {path: 'autenticar-pago/:id', component: AutenticacionPagoComponent},
       {path: 'registro', component: RegistroGeneralComponent},
       {path: 'usuarios', component: AdministarUsuariosComponent},

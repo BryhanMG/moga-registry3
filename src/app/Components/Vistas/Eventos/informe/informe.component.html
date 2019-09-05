@@ -4,33 +4,33 @@
         <mat-form-field>
             <input matInput placeholder="Lugar del evento" [(ngModel)]="entrada" (keyup.enter)="guardarLocalidad()">
         </mat-form-field>
-        <button mat-raised-button color="primary" style="margin-left: 2%" 
+        <button mat-raised-button color="primary" style="margin-left: 2%"
             [disabled]="(entrada == null)"
             (click)="guardarLocalidad()">Guardar</button>
         <br>
-        <button mat-raised-button color="primary" style="margin-bottom: 2%"  
+        <button mat-raised-button color="primary" style="margin-bottom: 2%"
             [disabled]="(lugar === '----------')"
             (click)="descargarPDF()">Descargar informe</button>
     </div>
-    
-    
+
+
     <div class="form">
         <div #informe style="background: white; padding: 3%">
             <div class="row">
                 <div class="col-md-6">
-                    <img style="width: 50%; height: 100%;" 
+                    <img style="width: 50%; height: 100%;"
                     src="../../../../../assets/imgs/MOGA_registry_logo.png">
                 </div>
                 <div class="col-md-6">
-                    <h5 style="margin-left: 10%">{{lugar}}, {{fecha.getDate()}} de {{obtenerMes(fecha.getMonth())}} del {{fecha.getFullYear()}} </h5>
+                    <h5 style="margin-left: 10%">{{lugar}}, fecha del evento {{fecha.getDate()}} de {{obtenerMes(fecha.getMonth())}} del {{fecha.getFullYear()}} </h5>
                 </div>
             </div>
             <div>
-                <p>En este informe se presentan los resultados del evento con la siguiente información: </p>
+                <p>Este informe presenta los resultados del evento.</p>
             </div>
             <div>
                 <mat-divider></mat-divider>
-                <p style="margin-bottom: 0%; padding-bottom: 0%">Informe del evento de registro con código {{idEvento}}</p>
+                <p style="margin-bottom: 0%; padding-bottom: 0%">Código del evento: {{idEvento}}</p>
                 <p style="margin-bottom: 0%; padding-bottom: 0%">Nombre del evento: {{evento.nombre_er}}</p>
                 <div class="row" >
                     <div class="col-md-6">
@@ -40,7 +40,7 @@
                         <p *ngIf="evento.tipo === 'P'" style="margin-bottom: 0%; padding-bottom: 0%">Monto: Q{{evento.monto}}</p>
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-md-6">
                         <p>Fecha y hora de inicio: {{evento.fecha_i.substring(0, 10)}} ---- {{evento.fecha_i.substring(11, 16)}} Hrs.</p>
@@ -53,7 +53,7 @@
                 <div *ngIf="evento.tipo === 'P'; else libre">
                     <div *ngFor="let ac of listaActividades" >
                         <h4 style="margin-bottom: 0%; padding-bottom: 0%">Actividad: {{ac.actividad.nombre_a}}</h4>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <h5 style="margin-bottom: 0%; padding-bottom: 0%">Tipo: {{tipoActividad(ac.actividad.tipo)}}</h5>
@@ -81,7 +81,7 @@
                                         <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
                                         <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
                                         <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
-                                        
+
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -93,7 +93,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                         </div>
                         <ng-template #especial>
                             <table class="table" >
@@ -102,22 +102,22 @@
                                     <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
                                     <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
                                     <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
-                                    
+
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let a of ac.asistentes">
-                                        
+
                                         <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a._id}}</td>
                                         <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombres}} {{a.apellidos}}</td>
                                         <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
-                                    
+
                                     </tr>
                                 </tbody>
                             </table>
                         </ng-template>
-                        
-                        <p>---------------------------------------------------------------------------</p>    
+
+                        <p>---------------------------------------------------------------------------</p>
                     </div>
                 </div>
                 <ng-template #libre>
@@ -140,20 +140,20 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let a of ac.asistentes">
-                                    
+
                                     <td style="width: 50%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombre}}</td>
                                     <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.correo}}</td>
-                                    
+
                                 </tr>
                             </tbody>
                         </table>
-                        <p>---------------------------------------------------------------------------</p>    
+                        <p>---------------------------------------------------------------------------</p>
                     </div>
                 </ng-template>
-                
-                
+
+
                 <div *ngIf="evento.tipo === 'P'">
-                    <h3>Participantes inscritos</h3>
+                    <h3>Participantes inscritos al evento y autenticados en actividades de tipo General</h3>
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
@@ -171,6 +171,14 @@
                         </tbody>
                     </table>
                 </div>
+                <br>
+                <br>
+                <span class="float-left">
+                  <p>Responsable: {{userLogged.username}}</p>
+                </span>
+                <span class="float-right">
+                  <p>Fecha de descarga: {{fechaA.getDate()}} de {{obtenerMes(fechaA.getMonth())}} del {{fechaA.getFullYear()}}</p>
+                </span>
             </div>
         </div>
     </div>

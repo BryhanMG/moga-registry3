@@ -4,15 +4,15 @@
       <div class="header">
         <div class="container"><h1 class="h1-resumen">{{nombre_er}}</h1></div>
       </div>
-      
+
       <div class="container" style="padding: 2%">
         <!-- <button class="button-size" mat-raised-button color="primary" style="background: #2E3238" (click)="comprobarActividadesEspera()">Actualizar</button> -->
 
       <div class="form">
         <div class="row">
-          
+
           <div class="col-sm-6"><div class="titulo">ID: <div class="elementos">{{idEvento}}</div> </div></div>
-          <div class="col-sm-6"><div class="titulo">Tipo: <div class="elementos">{{obtenerTipoEvento(evento.tipo)}}</div> </div></div>  
+          <div class="col-sm-6"><div class="titulo">Tipo: <div class="elementos">{{obtenerTipoEvento(evento.tipo)}}</div> </div></div>
         </div>
         <mat-divider style="width: 95%"></mat-divider>
         <div class="row">
@@ -21,10 +21,10 @@
         </div>
         <mat-divider style="width: 95%"></mat-divider>
         <div class="row">
-          <div class="col-sm-6"><div class="titulo">Estado: 
+          <div class="col-sm-6"><div class="titulo">Estado:
               <div *ngIf="estado==='A'; else espera">
                   <div class="elementos">Activo:<mat-icon style="color: green;">play_circle_filled</mat-icon></div>
-                </div>    
+                </div>
               </div>
               <ng-template #espera>
                 <div *ngIf="estado==='E';else terminado;">
@@ -38,7 +38,7 @@
               </ng-template>
             </div>
             <div class="col-sm-3"><button class="button-size" mat-raised-button color="primary"  style="margin-top: 5%"
-              routerLink="/informe/{{evento._id}}" 
+              routerLink="/informe/{{evento._id}}"
               [disabled]="!(evento.estado==='T')"
               matTooltip="Informe del evento">Ver informe</button>
             </div>
@@ -48,8 +48,8 @@
         <div class="row">
           <div class="col-md-6">
             <div class="row">
-              <div class="col-md-5"><button class="button-size" mat-raised-button color="primary" 
-                routerLink="/editar-evento/{{idEvento}}" 
+              <div class="col-md-5"><button class="button-size" mat-raised-button color="primary"
+                routerLink="/editar-evento/{{idEvento}}"
                 [disabled]="!(estado==='E')"
                 matTooltip="Editar evento">Editar</button></div>
               <div class="col-md-5"><button class="button-size-terminar" mat-raised-button color="primary"
@@ -58,36 +58,36 @@
                 (click)="terminarDialog(idEvento, nombre_er)">Terminar</button></div>
             </div>
           </div>
-          
+
           <div class="col-md-6">
-              <button mat-raised-button class="button-size" color="primary" 
-                routerLink="/moga/registro-pago/{{idEvento}}"  
-                *ngIf="evento.tipo === 'P'" 
+              <button mat-raised-button class="button-size" color="primary"
+                routerLink="/moga/registro-pago/{{idEvento}}"
+                *ngIf="evento.tipo === 'P'"
                 [disabled]="estado==='T'"
                 matTooltip="Registrar participantes">Registrar</button>
             <div class="row">
-                
+
               <!--[disabled]="evento.estado==='A' || evento.estado==='T'"-->
-              
+
               <!--<div class="col-md-6"><button mat-raised-button style="background: #2E3238; color: white; width: 80%" routerLink="/validarVotante/{{idEvento}}" [disabled]="!(evento.estado==='A')">Validar Votante</button></div>-->
             </div>
           </div>
-          
-          
-          
+
+
+
         </div>
         <br>
       </div>
       <br>
         <h3>Actividades</h3>
         <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-principal">
-          
+
 
           <mat-accordion>
-              
+
             <mat-expansion-panel *ngFor="let actividad of listaActividades">
               <!--Titulos-->
-              
+
               <mat-expansion-panel-header>
                 <table style="width: 100%">
                   <thead>
@@ -121,12 +121,12 @@
                           </ng-template>
                       </mat-panel-description>
                     </th>
-                    
+
                   </thead>
                 </table>
-                
-                
-                
+
+
+
               </mat-expansion-panel-header>
               <!--campos del desplegable-->
                 <mat-divider style="width: 95%; margin-bottom: 5px"></mat-divider>
@@ -134,33 +134,38 @@
                 <div class="row">
                   <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
                   <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
-                  
+
                 </div>
                 <mat-divider style="width: 95%; margin-bottom: 5px"></mat-divider>
                 <button class="button-size" mat-raised-button color="primary" style="width: 100px"
-                  routerLink="/moga/registro-participante/{{actividad['id']}}" 
+                  routerLink="/moga/registro-participante/{{actividad['id']}}"
                   *ngIf="evento.tipo === 'L'; else pago"
                   [disabled]="!(actividad['actividad'].estado === 'A')"
                   matTooltip="Registrar participantes">Registrar</button>
+
                 <ng-template #pago>
-                    <button class="button-size" mat-raised-button color="primary" style="width: 100px" 
-                      routerLink="/moga/autenticar/{{actividad['id']}}" 
+                    <button class="button-size" mat-raised-button color="primary" style="width: 100px"
+                      routerLink="/moga/autenticar/{{actividad['id']}}"
                       *ngIf="actividad['actividad'].tipo == 1; else autenticarPago"
                       [disabled]="!(actividad['actividad'].estado === 'A')"
                       matTooltip="Autenticar participantes">Autenticar</button>
+
                     <ng-template #autenticarPago>
-                        <button class="button-size" mat-raised-button color="primary" style="width: 100px" 
-                          routerLink="/moga/autenticar-pago/{{actividad['id']}}" 
+                        <button class="button-size" mat-raised-button color="primary" style="width: 100px"
+                          routerLink="/moga/autenticar-pago/{{actividad['id']}}"
                           [disabled]="!(actividad['actividad'].estado === 'A')"
                           matTooltip="Autenticar participantes">Autenticar</button>
-                      <button class="button-size" mat-raised-button color="primary" style="width: 100px" 
-                        routerLink="/moga/registro-especial/{{idEvento}}/{{actividad['id']}}" 
+                      <button class="button-size" mat-raised-button color="primary" style="width: 100px"
+                        routerLink="/moga/registro-especial/{{idEvento}}/{{actividad['id']}}"
                         [disabled]="actividad['actividad'].estado === 'T'"
                         matTooltip="Registrar participante">Registrar</button>
                     </ng-template>
-                    
+
                 </ng-template>
-                
+                <button class="button-size" mat-raised-button color="primary" style="width: 100px"
+                    routerLink="/moga/reporte/{{actividad['id']}}"
+                    matTooltip="Reporte de actividad">Reporte</button>
+
             </mat-expansion-panel>
           </mat-accordion>
         </cdk-virtual-scroll-viewport>
@@ -170,7 +175,7 @@
             <h5 style="padding: 2%">{{evento.descripcion}}</h5>
           </cdk-virtual-scroll-viewport>
         </div>
-        
+
       </div>
 
       <br>

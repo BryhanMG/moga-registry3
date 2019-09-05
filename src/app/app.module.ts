@@ -40,6 +40,7 @@ import { ImportRegistrosDialogComponent } from './Components/Vistas/MisDialogs/i
 import { TipoActividadDialogComponent } from './Components/Vistas/MisDialogs/tipo-actividad-dialog/tipo-actividad-dialog.component';
 import { TerminarEventoDialogComponent } from './Components/Vistas/MisDialogs/terminar-evento-dialog/terminar-evento-dialog.component';
 import { InformeComponent } from './Components/Vistas/Eventos/informe/informe.component';
+import { ReporteComponent } from './Components/Vistas/Eventos/reporte/reporte.component';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { InformeComponent } from './Components/Vistas/Eventos/informe/informe.co
     TipoActividadDialogComponent,
     TerminarEventoDialogComponent,
     InformeComponent,
+    ReporteComponent,
   ],
   imports: [
     BrowserModule,
