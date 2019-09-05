@@ -81,7 +81,7 @@ export class AutenticacionPagoComponent implements OnInit {
     for (const asis of this.actividad.asistentes) {
       if (id === asis['_id']) {
         asistente = {asistentes: [asis]};
-        //console.log(asistente['asistentes'][0]['autenticacion']);
+        console.log(asistente);
         if (asis['autenticacion']) {
           ferror = true;  
         }

@@ -65,11 +65,39 @@ export class InformeComponent implements OnInit {
   obtenerAsistentes(id, a){
     this.actividadService.getAsistentes(id)
       .subscribe(res => {
+        //console.log(res);
         //console.log(res[0]['asistentes']);
-        this.listaActividades.push({id: id, actividad: a, asistentes: res[0]['asistentes']});
-        //console.log(this.listaActividades);   
+        var asistentes = [];
+        if (a.tipo == 1) {
+          for (const cat of this.evento.categorias) {
+            var ar = [];
+            for (const a of res[0]['asistentes']) {
+              if (cat === a.categoria) {
+                ar.push(a);
+              }
+            }
+            asistentes.push({nombre: cat, lista: ar});
+            
+          }
+
+          var ar2 = [];
+          for (const a of res[0]['asistentes']) {
+            if (a.categoria == null ) {
+              ar2.push(a);
+            }
+          }
+          asistentes.push({nombre: 'Sin asignar', lista: ar2});
+          this.listaActividades.push({id: id, actividad: a, asistentes: asistentes});
+          //console.log(this.listaActividades[0]['asistentes']);  
+        }else{
+          this.listaActividades.push({id: id, actividad: a, asistentes: res[0]['asistentes']});
+        }
+        //console.log(this.listaActividades);  
+        
       });
   }
+
+  
 
   guardarLocalidad(){
     this.lugar = this.entrada;
@@ -142,9 +170,14 @@ export class InformeComponent implements OnInit {
       format: [11, 8.5]
     });
     const id = this.idEvento;
-    doc.addHTML(this.informe.nativeElement, function() {
+    //console.log(this.informe.nativeElement.offsetHeight);
+    var options = {
+      pagesplit: true
+    };
+    
+    doc.addHTML(this.informe.nativeElement, options,function() {
       doc.save('informe_'+id+'.pdf');
-   });
+      });
     
   }
   

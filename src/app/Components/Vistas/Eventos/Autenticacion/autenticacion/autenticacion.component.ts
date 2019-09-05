@@ -106,7 +106,9 @@ export class AutenticacionComponent implements OnInit {
       _id: this.firstFormGroup.get('id').value,
       nombres: this.firstFormGroup.get('nombres').value,
       apellidos: this.firstFormGroup.get('apellidos').value,
-      boleta: this.firstFormGroup.get('boleta').value
+      boleta: this.firstFormGroup.get('boleta').value,
+      correo: this.firstFormGroup.get('correo').value,
+      categoria: this.firstFormGroup.get('categoria').value
     }];
     var ferror=false;
     for (const asis of this.asistentes) {
@@ -159,13 +161,13 @@ export class AutenticacionComponent implements OnInit {
 
   entrada: String="";
   busquedaRegistros(){
-    console.log(this.entrada)
+    //console.log(this.entrada)
     this.asistentesTemporal = [];
     if (this.entrada && this.entrada.length > 0) {
       for (const participante of this.actividad['asistentes']) {
         let clave: String = participante['_id'];
         let nombre: String = participante['nombres'];
-        console.log(participante);
+        //console.log(participante);
         if (clave.startsWith(this.entrada.toString()) || nombre.startsWith(this.entrada.toString())) {
           this.llenarListaAsistentes(clave);
         }
@@ -218,7 +220,7 @@ export class AutenticacionComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
       //console.log({participantes: [participante]});
       if (result) {
         let asistente = [{
@@ -229,7 +231,7 @@ export class AutenticacionComponent implements OnInit {
         }];
         this.actividadService.deleteAsistente(this.idA, {asistentes: asistente})
           .subscribe(res => {
-            console.log(res);
+            //console.log(res);
             this.openSnackBar('Registro eliminado.', 'Cerrar');
             this.obtenerActividad(this.idA);
           });

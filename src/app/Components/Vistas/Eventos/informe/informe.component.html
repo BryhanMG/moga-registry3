@@ -18,7 +18,7 @@
         <div #informe style="background: white; padding: 3%">
             <div class="row">
                 <div class="col-md-6">
-                    <img style="width: 60%; height: 100%;" 
+                    <img style="width: 50%; height: 100%;" 
                     src="../../../../../assets/imgs/MOGA_registry_logo.png">
                 </div>
                 <div class="col-md-6">
@@ -30,57 +30,119 @@
             </div>
             <div>
                 <mat-divider></mat-divider>
-                <p>Informe del evento de registro con código {{idEvento}}</p>
-                <p>Nombre del evento: {{evento.nombre_er}}</p>
-                <p>Tipo de evento: {{tipoEvento(evento.tipo)}}</p>
-                <p>Fecha y hora de inicio: {{evento.fecha_i.substring(0, 10)}} ---- {{evento.fecha_i.substring(11, 16)}} Hrs.</p>
-                <p>Fecha y hora de finalización: {{evento.fecha_f.substring(0, 10)}} ---- {{evento.fecha_f.substring(11, 16)}} Hrs.</p>
+                <p style="margin-bottom: 0%; padding-bottom: 0%">Informe del evento de registro con código {{idEvento}}</p>
+                <p style="margin-bottom: 0%; padding-bottom: 0%">Nombre del evento: {{evento.nombre_er}}</p>
+                <div class="row" >
+                    <div class="col-md-6">
+                        <p style="margin-bottom: 0%; padding-bottom: 0%">Tipo de evento: {{tipoEvento(evento.tipo)}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p *ngIf="evento.tipo === 'P'" style="margin-bottom: 0%; padding-bottom: 0%">Monto: Q{{evento.monto}}</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Fecha y hora de inicio: {{evento.fecha_i.substring(0, 10)}} ---- {{evento.fecha_i.substring(11, 16)}} Hrs.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Fecha y hora de finalización: {{evento.fecha_f.substring(0, 10)}} ---- {{evento.fecha_f.substring(11, 16)}} Hrs.</p>
+                    </div>
+                </div>
                 <mat-divider></mat-divider>
                 <div *ngIf="evento.tipo === 'P'; else libre">
                     <div *ngFor="let ac of listaActividades" >
-                        <h4>Asistentes: {{ac.actividad.nombre_a}}</h4>
-                        <h5>Tipo: {{tipoActividad(ac.actividad.tipo)}}</h5>
-                        <table class="table" >
-                            <thead class="thead-dark">
-                                <tr>
-                                <th scope="col" style="width: 25%">ID</th>
-                                <th scope="col" style="width: 50%">Nombre</th>
-                                <th scope="col" style="width: 25%" *ngIf="ac.actividad.tipo == 1; else pago">Boleta</th>
-                                <ng-template #pago>
-                                    <th scope="col" style="width: 25%">Correo</th>
-                                </ng-template>
-                                
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let a of ac.asistentes">
-                                    <td style="width: 25%">{{a._id}}</td>
-                                    <td style="width: 50%">{{a.nombres}} {{a.apellidos}}</td>
-                                    <td style="width: 25%" *ngIf="ac.actividad.tipo == 1; else pago2">{{a.boleta}}</td>
-                                    <ng-template #pago2>
-                                        <td style="width: 25%" >{{a.correo}}</td>
-                                    </ng-template>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <h4 style="margin-bottom: 0%; padding-bottom: 0%">Actividad: {{ac.actividad.nombre_a}}</h4>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 style="margin-bottom: 0%; padding-bottom: 0%">Tipo: {{tipoActividad(ac.actividad.tipo)}}</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 *ngIf="ac.actividad.tipo == 2" style="margin-bottom: 0%; padding-bottom: 0%">Monto: Q{{ac.actividad.monto}}</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p style="margin-bottom: 0%; padding-bottom: 0%">Fecha y hora inicio: {{ac.actividad.fecha_i.substring(0, 10)}} ---- {{ac.actividad.fecha_i.substring(11, 16)}} Hrs.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p style="margin-bottom: 0%; padding-bottom: 0%">Fecha y hora fin: {{ac.actividad.fecha_f.substring(0, 10)}} ---- {{ac.actividad.fecha_f.substring(11, 16)}} Hrs.</p>
+                            </div>
+                        </div>
+                        <p *ngIf="ac.actividad.tipo == 2">Sub-actividad de pago disponible para todo publico.</p>
+
+                        <div *ngIf="ac.actividad.tipo == 1; else especial">
+                            <div *ngFor="let cat of ac.asistentes">
+                                <h4>Categoría: {{cat.nombre}}</h4>
+                                <table class="table" >
+                                    <thead class="thead-dark">
+                                        <tr>
+                                        <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
+                                        <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                                        <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
+                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let a of cat.lista">
+                                            <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a._id}}</td>
+                                            <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.nombres}} {{a.apellidos}}</td>
+                                            <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                        <ng-template #especial>
+                            <table class="table" >
+                                <thead class="thead-dark">
+                                    <tr>
+                                    <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
+                                    <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                                    <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let a of ac.asistentes">
+                                        
+                                        <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a._id}}</td>
+                                        <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombres}} {{a.apellidos}}</td>
+                                        <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
+                                    
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </ng-template>
+                        
                         <p>---------------------------------------------------------------------------</p>    
                     </div>
                 </div>
                 <ng-template #libre>
                     <div *ngFor="let ac of listaActividades" >
-                        <h4>Asistentes: {{ac.actividad.nombre_a}}</h4>
+                        <h4 >Asistentes: {{ac.actividad.nombre_a}}</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Fecha y hora inicio: {{ac.actividad.fecha_i.substring(0, 10)}} ---- {{ac.actividad.fecha_i.substring(11, 16)}} Hrs.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Fecha y hora fin: {{ac.actividad.fecha_f.substring(0, 10)}} ---- {{ac.actividad.fecha_f.substring(11, 16)}} Hrs.</p>
+                            </div>
+                        </div>
                         <table class="table" >
                             <thead class="thead-dark">
                                 <tr>
-                                <th scope="col" style="width: 60%">Nombre</th>
-                                <th scope="col" style="width: 40%">Correo</th>
+                                <th scope="col" style="width: 60%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                                <th scope="col" style="width: 40%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let a of ac.asistentes">
                                     
-                                    <td style="width: 50%">{{a.nombre}}</td>
-                                    <td style="width: 25%">{{a.correo}}</td>
+                                    <td style="width: 50%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombre}}</td>
+                                    <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.correo}}</td>
                                     
                                 </tr>
                             </tbody>
@@ -95,16 +157,16 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                            <th scope="col" style="width: 25%">ID</th>
-                            <th scope="col" style="width: 50%">Nombre</th>
-                            <th scope="col" style="width: 25%">Correo</th>
+                            <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
+                            <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                            <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr *ngFor="let p of evento['participantes']">
-                                <td style="width: 25%">{{p._id}}</td>
-                                <td style="width: 50%">{{p.nombres}} {{p.apellidos}}</td>
-                                <td style="width: 25%">{{p.correo}}</td>
+                                <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{p._id}}</td>
+                                <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{p.nombres}} {{p.apellidos}}</td>
+                                <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{p.correo}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -141,7 +141,7 @@ export class RegistroPagoComponent implements OnInit {
     //console.log(pa); 
     this.eventoService.addParticipate(this.idE, pa)
       .subscribe(res => {
-        console.log(res);
+        //console.log(res);
         this.obtenerEvento(this.idE);
         this.limpiarCampos();
       });  

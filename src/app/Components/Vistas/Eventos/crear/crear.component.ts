@@ -218,7 +218,7 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
     this.listaFechas = [];
     var lFechaI = new Date(this.firstFormGroup.get("fechaI").value);
     var lFechaF = new Date(this.firstFormGroup.get("fechaF").value);
-    console.log("Prueba",lFechaI.getDate());
+    //console.log("Prueba",lFechaI.getDate());
     var temp = lFechaI;
     var n = 0;
     
@@ -231,7 +231,7 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
         break;
       }
     }
-    console.log(this.listaFechas);
+    //console.log(this.listaFechas);
   }
   flagG = false;
   noA = 0;
@@ -447,14 +447,14 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
           for (const actividad of this.listaActividades) {
             this.actividadService.postActividad(actividad["actividad"])
               .subscribe(res => {
-                console.log(res);
+                //console.log(res);
               });  
           }  
         }else{
           for (const actividad of this.listaActividadesP) {
             this.actividadService.postActividad(actividad["actividad"])
               .subscribe(res => {
-                console.log(res);
+                //console.log(res);
               });  
           }  
         }
@@ -468,7 +468,7 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
     const amazingTimePicker = this.atp.open();
     amazingTimePicker.afterClose()
       .subscribe(time =>{
-        console.log(time);
+        //console.log(time);
     });
   }
 
@@ -487,9 +487,9 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result !=null) {
         this.evento.campos = result as [];
-        console.log(this.evento.campos);  
+        //console.log(this.evento.campos);  
       }
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
 
@@ -497,7 +497,7 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(TipoActividadDialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
 }
