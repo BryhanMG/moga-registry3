@@ -140,20 +140,20 @@
                 <button class="button-size" mat-raised-button color="primary" style="width: 100px"
                   routerLink="/moga/registro-participante/{{actividad['id']}}"
                   *ngIf="evento.tipo === 'L'; else pago"
-                  [disabled]="!(actividad['actividad'].estado === 'A')"
+                  [disabled]="!(actividad['actividad'].estado === 'A' && evento.estado==='A')"
                   matTooltip="Registrar participantes">Registrar</button>
 
                 <ng-template #pago>
                     <button class="button-size" mat-raised-button color="primary" style="width: 100px"
                       routerLink="/moga/autenticar/{{actividad['id']}}"
                       *ngIf="actividad['actividad'].tipo == 1; else autenticarPago"
-                      [disabled]="!(actividad['actividad'].estado === 'A')"
+                      [disabled]="!(actividad['actividad'].estado === 'A' && evento.estado==='A')"
                       matTooltip="Autenticar participantes">Autenticar</button>
 
                     <ng-template #autenticarPago>
                         <button class="button-size" mat-raised-button color="primary" style="width: 100px"
                           routerLink="/moga/autenticar-pago/{{actividad['id']}}"
-                          [disabled]="!(actividad['actividad'].estado === 'A')"
+                          [disabled]="!(actividad['actividad'].estado === 'A' && evento.estado==='A')"
                           matTooltip="Autenticar participantes">Autenticar</button>
                       <button class="button-size" mat-raised-button color="primary" style="width: 100px"
                         routerLink="/moga/registro-especial/{{idEvento}}/{{actividad['id']}}"
@@ -164,6 +164,7 @@
                 </ng-template>
                 <button class="button-size" mat-raised-button color="primary" style="width: 100px"
                     routerLink="/moga/reporte/{{actividad['id']}}"
+                    [disabled]="evento.estado==='E' || actividad['actividad'].estado === 'E'"
                     matTooltip="Reporte de actividad">Reporte</button>
 
             </mat-expansion-panel>

@@ -127,11 +127,11 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     this.r1Subsciption.unsubscribe();
   }
 
-  obtenerEvento(id){
+  obtenerEvento(id){//Obtiene la informacion del evento que se carga a los campos
     this.eventoService.getEvento(id)
       .subscribe(res =>{
         this.evento = res as EventoRegistro;
-        console.log(this.evento);
+        //console.log(this.evento);
         this.firstFormGroup.get('nombreE').setValue(this.evento.nombre_er);
         var FI = new Date(this.evento.fecha_i.substring(0, 10));
         FI.setDate(FI.getDate()+1);
@@ -162,7 +162,7 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
           this.listaActividades.push({id: a._id, actividad: a, nuevo: false, actualizar: false});
         }
         
-        console.log(this.listaActividades);
+        //console.log(this.listaActividades);
         
       });
   }
@@ -314,10 +314,12 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
 
  //------------------------------------------------------------------------
   addActividad(){
-    if (!this.feditar) {
-      if (this.evento.tipo === "L") {
+    if (!this.feditar) {//Bandera para determinar si se está creando una nueva actividad, si es false, se crea la nueva actividad
+      this.fGuardado = true;  
+      if (this.evento.tipo === "L") {//bandera para determinar si el evento que se edita es de tipo Libre ("L") o de Pago ("P")
         var actividad = new ActividadNuevaLibre(this.evento._id, this.secondFormGroup.get("nombreA").value,
         this.fechaI2, this.fechaF2, this.secondFormGroup.get("descripcion").value, "E", 0);
+        //Se guardan las actividades nuevas en una lista de actividades con sus atributos y con las bandera "nuevo" con valor de true
         this.listaActividades.push({id: this.noA, actividad: actividad, nuevo: true, actualizar: false});
         //console.log(this.listaActividades);
         this.limpiarCampos();
@@ -325,13 +327,14 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
         var actividadP = new ActividadNuevaPagada(this.evento._id, this.secondFormGroup.get("nombreA").value,
         this.fechaI2, this.fechaF2, this.secondFormGroup.get("descripcion").value, "E", +this.secondFormGroup.get("tipo").value,
         this.secondFormGroup.get('monto').value);
+        //Se guardan las actividades nuevas en una lista de actividades con sus atributos y con las bandera "nuevo" con valor de true
         this.listaActividades.push({id: this.noA, actividad: actividadP, nuevo: true, actualizar: false});
         //console.log(this.listaActividades);
         this.limpiarCampos();
       }
       
       this.noA++;
-    }else{
+    }else{//Ingreso a la segunda opción para editar una actividad existente
       this.cambiarActividad(this.idEditar);
     }
 
@@ -355,7 +358,7 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
   fGuardado= false;
   editarActividad(actividad: Object){
     this.feditar = true;
-    console.log(actividad);
+    //console.log(actividad);
     if (this.evento.tipo === "L") {
       this.idEditar = actividad['id'];
       this.secondFormGroup.get("nombreA").setValue(actividad['actividad']['nombre_a']);
@@ -433,8 +436,8 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
       }
       n++;
     }
-    console.log(this.listaActividades);
-    console.log(this.listaActividadesEliminadas);
+    //console.log(this.listaActividades);
+    //console.log(this.listaActividadesEliminadas);
   }
 
   obtenerTipoActividad(tipo: number){
@@ -464,10 +467,10 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
 
   //Actualizar evento
   acuralizarEvento(){
-    console.log(this.evento);
+    //console.log(this.evento);
     this.eventoService.updateEvento(this.evento)
       .subscribe(res =>{
-        console.log(res);
+        //console.log(res);
         this.openSnackBar("Informacion actualizada", "Cerrar");
         
       });
@@ -481,8 +484,9 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
         //console.log(actividad["actividad"]);
         this.actividadService.postActividad(actividad["actividad"])
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           actividad["nuevo"] = false;
+          this.fGuardado = false;  
         }); 
       }else if(actividad["actualizar"]) {
         contUpdate++;
@@ -494,7 +498,7 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     for (const actividad of this.listaActividades) {
       this.actividadService.updateActividad(actividad['id'], actividad['actividad'])
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           contador++;
           if (contUpdate == contador) {
             this.obtenerActividades(this.evento._id);
@@ -502,19 +506,21 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
           }
         });
     }
-
+    
     for (const id of this.listaActividadesEliminadas) {
+      //console.log(id);
       this.actividadService.deleteActividad(id)
         .subscribe(res => {
-          console.log(res);
+          //console.log(res);
           this.obtenerActividades(this.evento._id);
+          this.fGuardado = false;
         });
     }
     if (this.listaActividadesEliminadas.length > 0) {
       this.listaActividadesEliminadas = [];
     }
 
-
+    this.openSnackBar("Informacion actualizada", "Cerrar");
   }
 
   //Servicio para el timepicker
