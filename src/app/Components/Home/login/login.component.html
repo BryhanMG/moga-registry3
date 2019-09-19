@@ -11,11 +11,11 @@
         <form [formGroup]="formGroup">
           <div class="container offset-3">
             <mat-form-field >
-                <input matInput type="text" placeholder="Usuario" formControlName="idUser" required/>
+                <input matInput type="text" placeholder="Usuario" formControlName="idUser" maxlength="16" required/>
             </mat-form-field>
             <br>
             <mat-form-field >
-                <input matInput type="password" placeholder="Contraseña" formControlName="password" (keyup.enter)="login()" required/>
+                <input matInput type="password" placeholder="Contraseña" formControlName="password" maxlength="35" (keyup.enter)="login()" required/>
             </mat-form-field>
           </div>
           <div class="container offset-4" >

@@ -4,7 +4,7 @@
       <div class="row">
           <div class="col-md-9">
             <mat-form-field>
-              <input matInput placeholder="Buscar" [(ngModel)]="id" (keyup.enter)="buscar()">
+              <input matInput placeholder="Buscar" [(ngModel)]="id" maxlength="16" (keyup.enter)="buscar()">
             </mat-form-field>
             <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="buscar()" ><mat-icon>search</mat-icon></button>
             <label *ngIf="ferror" style="margin-left: 10px">* Sin registro</label>
@@ -55,7 +55,7 @@
             </mat-expansion-panel-header>
             
             <mat-form-field  style="width: 250px">
-              <input matInput placeholder="Buscar por ID" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
+              <input matInput placeholder="Buscar por ID" maxlength="16" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
             </mat-form-field>
             
             <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="busquedaRegistros()" ><mat-icon>search</mat-icon></button>

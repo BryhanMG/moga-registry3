@@ -4,7 +4,7 @@
       <div class="row">
           <div class="col-md-6">
             <mat-form-field>
-              <input matInput placeholder="Buscar" [(ngModel)]="id" (keyup.enter)="buscar()">
+              <input matInput placeholder="Buscar" maxlength="16" [(ngModel)]="id" (keyup.enter)="buscar()">
             </mat-form-field>
             <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="buscar()" ><mat-icon>search</mat-icon></button>
             <label *ngIf="ferror" style="margin-left: 10px">* Sin registro</label>
@@ -36,7 +36,7 @@
         <div class="col-md-6">
           <form [formGroup]="firstFormGroup">
             <mat-form-field style="width: 50%">
-              <input matInput placeholder="No. Boleta" formControlName="boleta"  required>
+              <input matInput placeholder="No. Boleta" maxlength="75" formControlName="boleta"  required>
               <mat-hint align="start"><strong>Campo obligatorios *</strong> </mat-hint>
             </mat-form-field>
           </form>
@@ -60,7 +60,7 @@
       <div class="row">
           <div class="col-md-6" *ngFor="let campo of campos">
             <mat-form-field style="width: 50%">
-              <input matInput [placeholder]="campo['campo']" [(ngModel)]="campo['valor']">
+              <input matInput [placeholder]="campo['campo']" maxlength="75" [(ngModel)]="campo['valor']">
             </mat-form-field>
           </div>
       </div>
@@ -92,7 +92,7 @@
             </mat-expansion-panel-header>
             
             <mat-form-field  style="width: 250px">
-              <input matInput placeholder="Buscar por ID, Boleta, Nombre" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
+              <input matInput placeholder="Buscar por ID, Boleta, Nombre" maxlength="75" [(ngModel)]="entrada" (keyup.enter)="busquedaRegistros()" >
             </mat-form-field>
             
             <button mat-mini-fab color="primary"  style="background: #2E3238" (click)="busquedaRegistros()" ><mat-icon>search</mat-icon></button>

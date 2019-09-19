@@ -5,7 +5,7 @@
 <div class="container">
   <div class="form">
     <mat-form-field >
-      <input matInput placeholder="Buscar usuario" [(ngModel)]="id" (keyup.enter)="buscar()">
+      <input matInput placeholder="Buscar usuario" maxlength="16" [(ngModel)]="id" (keyup.enter)="buscar()">
     </mat-form-field>
     <button mat-mini-fab color="primary"  style="background: #2E3238" 
       (click)="buscar()"

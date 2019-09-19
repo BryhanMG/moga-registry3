@@ -6,11 +6,11 @@
         <div class="col-md-3">
           <form [formGroup]="formGroup">
             <mat-form-field >
-              <input matInput placeholder="Nombre" [disabled]="bloqueo" formControlName="nombre" required>
+              <input matInput placeholder="Nombre" maxlength="75" [disabled]="bloqueo" formControlName="nombre" required>
             </mat-form-field>
             <br>
             <mat-form-field >
-              <input matInput placeholder="Correo" [disabled]="bloqueo" formControlName="correo" >
+              <input matInput placeholder="Correo" maxlength="75" [disabled]="bloqueo" formControlName="correo" >
             </mat-form-field>
             <button mat-raised-button color="primary" style="background: #2E3238; width: 125px; height: 60px;" (click)="registrar()" [disabled]="bloqueo">Registrar</button>
             <button mat-raised-button color="primary" style="background: #2E3238; width: 125px; margin-top: 3%" (click)="limpiarCampos()" >Cancelar</button>
@@ -23,7 +23,7 @@
           <div class="col-md-9">
               
               <mat-form-field >
-                <input matInput placeholder="Buscar" [(ngModel)]="buscar" (keyup.enter)="buscarNombre()">
+                <input matInput placeholder="Buscar" maxlength="75" [(ngModel)]="buscar" (keyup.enter)="buscarNombre()">
               </mat-form-field>
               <button mat-mini-fab color="primary" style="background: #2E3238" (click)="buscarNombre()"><mat-icon>search</mat-icon></button>
               <label style="margin-left: 5%">Estado: {{estado}}</label>

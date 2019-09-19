@@ -9,24 +9,24 @@
         <div class="row">
           <div class="col-md-6">
             <mat-form-field style="width: 75%"> 
-              <input matInput placeholder="Nombres del usuario" formControlName="nombres" required>
+              <input matInput placeholder="Nombres del usuario" maxlength="75" formControlName="nombres" required>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field style="width: 75%">
-              <input matInput placeholder="Apellidos del usuario" formControlName="apellidos" required>
+              <input matInput placeholder="Apellidos del usuario" maxlength="75" formControlName="apellidos" required>
             </mat-form-field>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6">
             <mat-form-field style="width: 75%">
-                <input matInput placeholder="ID del usuario" formControlName="idUsuario" required>
+                <input matInput placeholder="ID del usuario" maxlength="16" formControlName="idUsuario" required>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field style="width: 75%">
-              <input matInput  type="email" placeholder="Correo del usuario" formControlName="correo">
+              <input matInput  type="email" placeholder="Correo del usuario" maxlength="75" formControlName="correo">
             </mat-form-field>
           </div>
           
@@ -50,7 +50,7 @@
       <mat-divider style="margin-top: 2%"></mat-divider>
       <div style="margin-bottom: 2%">
           <mat-form-field >
-            <input matInput placeholder="Buscar usuario" [(ngModel)]="id" (keyup.enter)="buscar()">
+            <input matInput placeholder="Buscar usuario" maxlength="16" [(ngModel)]="id" (keyup.enter)="buscar()">
           </mat-form-field>
           <button mat-mini-fab color="primary"  style="background: #2E3238" 
             (click)="buscar()" 

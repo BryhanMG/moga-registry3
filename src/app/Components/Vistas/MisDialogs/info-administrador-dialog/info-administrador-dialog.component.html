@@ -11,7 +11,7 @@
   <h5>para restaurar la contraseña debe ingresar la nueva contraseña, <br>para este usuario, en el campo siguiente:</h5>
   <form [formGroup]="formGroup">
     <mat-form-field >
-      <input matInput [type]="tipo" placeholder="Password" formControlName="password" required>
+      <input matInput [type]="tipo" placeholder="Password" maxlength="35" formControlName="password" required>
     </mat-form-field>
     <a (click)="showHidePassword()" *ngIf="!fpass; else show">
       <mat-icon>remove_red_eye</mat-icon>

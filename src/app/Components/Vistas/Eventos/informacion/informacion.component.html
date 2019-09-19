@@ -11,7 +11,7 @@
           <div class="row">
             <div class="col-md-10">
               <mat-form-field >
-                <input matInput placeholder="Buscar evento" [(ngModel)]="entrada" (keyup.enter)="buscar()">
+                <input matInput placeholder="Buscar evento" maxlength="75" [(ngModel)]="entrada" (keyup.enter)="buscar()">
               </mat-form-field>
               <button mat-mini-fab color="primary" style="background: #2E3238" 
               (click)="buscar()"

@@ -10,7 +10,7 @@
     <br>en el campo que sigue:</h5>
   <form [formGroup]="formGroup">
     <mat-form-field>
-      <input matInput [type]="tipo" placeholder="Password" formControlName="password" required>
+      <input matInput [type]="tipo" placeholder="Password" maxlength="35" formControlName="password" required>
     </mat-form-field>
     <a (click)="showHidePassword()" *ngIf="!fpass; else show">
       <mat-icon matTooltip="Mostrar Password">remove_red_eye</mat-icon>

@@ -12,7 +12,7 @@
   <p>En el siguiente apartado podrá agregar campos adicionales <br>para el registro:</p>
   <form [formGroup]="formGroup">
     <mat-form-field >
-      <input matInput placeholder="Nombre del campo" formControlName="nombre" (keyup.enter)="addCampo()" required>
+      <input matInput placeholder="Nombre del campo" maxlength="75" formControlName="nombre" (keyup.enter)="addCampo()" required>
     </mat-form-field>
     <button mat-raised-button color="primary" style="margin-left: 2%" (click)="addCampo()">Agregar</button>
   </form>

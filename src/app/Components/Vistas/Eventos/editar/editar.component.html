@@ -12,7 +12,7 @@
             <div class="row">
               <div class="col-md-6">
                 <mat-form-field>
-                  <input matInput placeholder="Nombre del evento" formControlName="nombreE"  required>
+                  <input matInput placeholder="Nombre del evento" maxlength="75" formControlName="nombreE"  required>
                 </mat-form-field>
               </div>
               <div class="col-md-6" >
@@ -28,14 +28,14 @@
             <div class="row">
               <div class="col-md-6" style="margin-top: 1%">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="dp1" placeholder="Fecha de inicio" formControlName="fechaI" required>
+                  <input matInput [matDatepicker]="dp1" placeholder="Fecha de inicio" bmaxlength="35" formControlName="fechaI" required>
                   <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
                   <mat-datepicker #dp1 disabled="false" ></mat-datepicker>
                 </mat-form-field>
               </div> 
               <div class="col-md-6" style="margin-top: 1%">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="dp2" placeholder="Fecha de finalizacion" formControlName="fechaF" required>
+                  <input matInput [matDatepicker]="dp2" placeholder="Fecha de finalizacion" maxlength="35" formControlName="fechaF" required>
                   <mat-datepicker-toggle matSuffix [for]="dp2"></mat-datepicker-toggle>
                   <mat-datepicker #dp2 disabled="false" ></mat-datepicker>
                 </mat-form-field>
@@ -44,20 +44,20 @@
             <div class="row">
               <div class="col-md-6" style="margin-top: 1%">
                   <mat-form-field>
-                      <input matInput atp-time-picker placeholder="Hora de inicio" formControlName="horaI" required>
+                      <input matInput atp-time-picker placeholder="Hora de inicio" maxlength="35" formControlName="horaI" required>
                   </mat-form-field>
                 
               </div>
               <div class="col-md-6" style="margin-top: 1%;">
                   <mat-form-field>
-                      <input matInput atp-time-picker placeholder="Hora de finalizacion" formControlName="horaF" required>
+                      <input matInput atp-time-picker placeholder="Hora de finalizacion" maxlength="35" formControlName="horaF" required>
                   </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md-6" style="margin-top: 1%;">
                   <mat-form-field>
-                    <input matInput type="number" placeholder="Monto a pagar" formControlName="monto"  required *ngIf="seleccionarTipoEvento()">
+                    <input matInput type="number" placeholder="Monto a pagar" formControlName="monto" maxlength="10" required *ngIf="seleccionarTipoEvento()">
                   </mat-form-field>
               </div>
               <div class="col-md-6" style="margin-top: 1%;">
@@ -68,14 +68,14 @@
                 <div class="col-md-6">
                   <div class="md-form" >
                     <label for="form7" style="margin-top: 30px">Descripción</label>
-                    <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" formControlName="descripcion"></textarea>
+                    <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" maxlength="1000" formControlName="descripcion"></textarea>
                   </div>
                 </div>
                   
                 <div class="col-md-6" >
                     <div class="md-form" >
                       <mat-form-field >
-                        <input matInput placeholder="Categoría" formControlName="categoria" *ngIf="seleccionarTipoEvento()" (keyup.enter)="addCategoria()">
+                        <input matInput placeholder="Categoría" formControlName="categoria" maxlength="75" *ngIf="seleccionarTipoEvento()" (keyup.enter)="addCategoria()">
                       </mat-form-field>
                       <button mat-raised-button class="base" color="primary" style="margin-left: 2%" 
                         [disabled]="this.firstFormGroup.get('tipo').value != 'P'" (click)="addCategoria()">Guardar</button>
@@ -118,7 +118,7 @@
               <div class="row">
                 <div class="col-md-6" >
                   <mat-form-field>
-                    <input matInput placeholder="Nombre del evento *" formControlName="nombreA" >
+                    <input matInput placeholder="Nombre del evento *" maxlength="75" formControlName="nombreA" >
                   </mat-form-field>
                 </div>
                 <div class="col-md-6" >
@@ -143,12 +143,12 @@
               <div class="row">
                 <div class="col-md-6" style="margin-top: 2%">
                   <mat-form-field>
-                    <input matInput atp-time-picker placeholder="Hora de inicio *" formControlName="horaI" >
+                    <input matInput atp-time-picker placeholder="Hora de inicio *" maxlength="35" formControlName="horaI" >
                   </mat-form-field>
                 </div>
                 <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
                     <mat-form-field>
-                        <input matInput atp-time-picker placeholder="Hora de finalizacion *" formControlName="horaF" >
+                        <input matInput atp-time-picker placeholder="Hora de finalizacion *" maxlength="35" formControlName="horaF" >
                     </mat-form-field>
                 </div>
               </div>
@@ -158,7 +158,7 @@
                     <div class="md-form" >
                         <label for="form7" >Descripción</label>
                         
-                        <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" formControlName="descripcion"></textarea>
+                        <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" maxlength="1000" formControlName="descripcion"></textarea>
                         
                       </div>
                 </div>
@@ -226,7 +226,7 @@
                     <div class="row">
                       <div class="col-md-6" >
                         <mat-form-field>
-                          <input matInput placeholder="Nombre de la actividad *"  formControlName="nombreA" >
+                          <input matInput placeholder="Nombre de la actividad *" maxlength="75" formControlName="nombreA" >
                         </mat-form-field>
                       </div>
                       <div class="col-md-6" >
@@ -250,19 +250,19 @@
                       </div>
                       <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
                         <mat-form-field>
-                          <input matInput placeholder="Monto *" formControlName="monto" *ngIf="seleccionTipoActividad()">
+                          <input matInput placeholder="Monto *" maxlength="10" formControlName="monto" *ngIf="seleccionTipoActividad()">
                         </mat-form-field>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6" style="margin-top: 2%">
                         <mat-form-field>
-                          <input matInput atp-time-picker placeholder="Hora de inicio *" formControlName="horaI" >
+                          <input matInput atp-time-picker placeholder="Hora de inicio *" maxlength="35" formControlName="horaI" >
                         </mat-form-field>
                       </div>
                       <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
                           <mat-form-field>
-                              <input matInput atp-time-picker placeholder="Hora de finalizacion *" formControlName="horaF" >
+                              <input matInput atp-time-picker placeholder="Hora de finalizacion *" maxlength="35" formControlName="horaF" >
                           </mat-form-field>
                       </div>
                     </div>
@@ -270,7 +270,7 @@
                       <div class="col-md-4" style="margin-top: 1%">
                           <div class="md-form" >
                             <label for="form7" >Descripción</label>
-                            <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 225px;" formControlName="descripcion"></textarea>
+                            <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 225px;" maxlength="1000" formControlName="descripcion"></textarea>
                           </div>
                       </div>
                       <div class="col-md-8" >
@@ -334,12 +334,12 @@
               <div class="row" *ngIf="evento.tipo === 'T'">
                 <div class="col-md-6" style="margin-top: 2%">
                   <mat-form-field>
-                    <input matInput placeholder="Monto *" formControlName="monto">
+                    <input matInput placeholder="Monto *" maxlength="10" formControlName="monto">
                   </mat-form-field>
                 </div>
                 <div class="col-md-6" style="margin-top: 1%; margin-bottom: 2%">
                   <mat-form-field>
-                    <input matInput placeholder="Total participantes *" formControlName="total">
+                    <input matInput placeholder="Total participantes *" maxlength="10" formControlName="total">
                   </mat-form-field>
                 </div>
               </div>
