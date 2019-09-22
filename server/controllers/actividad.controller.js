@@ -71,6 +71,8 @@ ActividadesController.quitAsistente = async(req, res)=>{
     const asistente = {
         asistentes: req.body.asistentes
     };
+    console.log('Hola mundo');
+    console.log(asistente);
     await Actividad.findByIdAndUpdate(id, {$pull: {asistentes: {$in: asistente.asistentes}}}, {new: true});
     res.json({status: 'Participante eliminado'});
 }

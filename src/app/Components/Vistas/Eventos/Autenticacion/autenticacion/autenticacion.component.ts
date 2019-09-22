@@ -222,12 +222,16 @@ export class AutenticacionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       //console.log('The dialog was closed');
       //console.log({participantes: [participante]});
+      
       if (result) {
+        
         let asistente = [{
           _id: participante['_id'],
           nombres: participante['nombres'],
           apellidos: participante['apellidos'],
-          boleta: participante['boleta']
+          boleta: participante['boleta'],
+          correo: participante['correo'],
+          categoria: participante['categoria'],
         }];
         this.actividadService.deleteAsistente(this.idA, {asistentes: asistente})
           .subscribe(res => {

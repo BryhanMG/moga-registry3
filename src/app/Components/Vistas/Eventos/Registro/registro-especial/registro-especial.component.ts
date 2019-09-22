@@ -10,6 +10,7 @@ import { NotificacionBoletaDialogComponent } from 'src/app/Components/Vistas/Mis
 
 import { ActividadService } from 'src/app/Servicios/actividad.service';
 import { Actividad } from 'src/app/Modelos/actividad';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-registro-especial',
@@ -42,7 +43,8 @@ export class RegistroEspecialComponent implements OnInit {
     private eventoService: RegistroService,
     private actividadService: ActividadService,
     private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
     ) { 
       
     }
@@ -52,7 +54,7 @@ export class RegistroEspecialComponent implements OnInit {
       id: ['', Validators.required],
       nombres: ['', Validators.required],
       apellidos: ['', Validators.required],
-      correo: ['', Validators.required],
+      correo: [''],
       categoria: [''],
       fcategoria: [false],
     });
@@ -71,6 +73,11 @@ export class RegistroEspecialComponent implements OnInit {
         //console.log(this.actividad);
         this.participantes = this.actividad.asistentes;
         //console.log(this.participantes)
+        var parTemporal = [];
+        for (let i = (this.participantes.length-1); i >= 0 ; i--) {
+          parTemporal.push(this.participantes[i]);
+        }
+        this.participantes = parTemporal;
       });
   }
 
@@ -216,7 +223,21 @@ export class RegistroEspecialComponent implements OnInit {
       console.log('The dialog was closed');
       //console.log({participantes: [participante]});
       if (result) {
-        //console.log(result);  
+        let asistente = [{
+          _id: participante['_id'],
+          nombres: participante['nombres'],
+          apellidos: participante['apellidos'],
+          correo: participante['correo'],
+          categoria: participante['categoria'],
+          autenticacion: participante['autenticacion'],
+        }];
+        this.actividadService.deleteAsistente(this.idA, {asistentes: asistente})
+          .subscribe(res => {
+            this.openSnackBar('Registro eliminado.', 'Cerrar');
+            this.obtenerActividad(this.idA);
+          });
+        //console.log(result);
+          
       }
     });
   }
@@ -240,6 +261,11 @@ export class RegistroEspecialComponent implements OnInit {
     }
   }
   
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
+  }
 
   generarQR(){
     this.codigoQR = this.firstFormGroup.get('id').value;

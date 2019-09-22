@@ -77,25 +77,30 @@
                   </div>
               </div>
               <ng-template #especial>
-                  <table class="table" >
-                      <thead class="thead-dark">
-                          <tr>
-                          <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
-                          <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
-                          <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
-
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr *ngFor="let a of actividad.asistentes">
-
-                              <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a._id}}</td>
-                              <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombres}} {{a.apellidos}}</td>
-                              <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
-
-                          </tr>
-                      </tbody>
-                  </table>
+                <div *ngFor="let cat of asistentesCat">
+                    <h4>Categoría: {{cat.nombre}}</h4>
+                    <table class="table" >
+                        <thead class="thead-dark">
+                            <tr>
+                            <th scope="col" style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">ID</th>
+                            <th scope="col" style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Nombre</th>
+                            <th scope="col" style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">Correo</th>
+    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of cat.lista">
+    
+                                <td style="width: 25%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a._id}}</td>
+                                <td style="width: 45%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;">{{a.nombres}} {{a.apellidos}}</td>
+                                <td style="width: 30%; margin-bottom: 0%; padding-bottom: 0%; margin-top: 0%; padding-top: 0%;" >{{a.correo}}</td>
+    
+                            </tr>
+                        </tbody>
+                    </table>
+                
+                </div>
+                  
               </ng-template>
             </ng-template>
             <br>
