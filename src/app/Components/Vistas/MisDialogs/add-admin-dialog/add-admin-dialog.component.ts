@@ -45,9 +45,10 @@ export class AddAdminDialogComponent implements OnInit {
     if (this.formGroup.valid && pass.length > 4) {
       this.adminService.postAdministrador({
         _id: this.idUser,
-        password: pass
+        rol: this.rol,
+        password: pass        
       }).subscribe(res => {
-        console.log(res);
+        //console.log(res);
         this.dialogRef.close(true);
       });
     }else{

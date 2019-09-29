@@ -43,12 +43,12 @@ export class AdministarUsuariosComponent implements OnInit {
       .subscribe(res =>{
         //console.log(res);
         const lista = res as Administrador[];
+        
         for (const admin of lista) {
           if (admin["_id"] != "Admin") {
             this.usuarioService.getUsuario(admin["_id"])
             .subscribe(res => {
               admin["nombres"] = res["nombres"] +" "+res["apellidos"];
-              admin['rol']=1;
               this.administradores.push(admin);
             });
           }
@@ -81,6 +81,8 @@ export class AdministarUsuariosComponent implements OnInit {
   identificarRol(rol: number){
     if (rol == 1) {
       return "Administrador"
+    }else if (rol == 2) {
+      return "Administrador especial"
     }else{
       return "----"
     }
@@ -90,14 +92,14 @@ export class AdministarUsuariosComponent implements OnInit {
     for (const admin of this.administradores) {
       if (id === admin["_id"]) {
         this.fusuario = true;
-        return 1;
+        return admin["rol"];
       }
     }
     return 0
   }
 
   agregarAdministrador(rol: number){
-    this.addAdminDialog(this.idUser, this.nombres+" "+this.apellidos, this.identificarRol(rol));
+    this.addAdminDialog(this.idUser, this.nombres+" "+this.apellidos, this.identificarRol(rol), rol);
   }
 
   limpiarInformacion(){
@@ -109,12 +111,13 @@ export class AdministarUsuariosComponent implements OnInit {
     this.fcancelar = true; 
   }
 
-  //Dialog para agregar un nuevo administrador
-  addAdminDialog(id: String, nom: String, rolNombre: String): void {
+  //Dialog para agregar un nuevo administrador de cualquier tipo
+  addAdminDialog(id: String, nom: String, rolNombre: String, rol: number): void {
     const dialogRef = this.dialog.open(AddAdminDialogComponent, {
       data: {idUser: id,
         nombres: nom,
-        rolNombre: rolNombre
+        rolNombre: rolNombre,
+        rol: rol
         }
     });
 
@@ -127,6 +130,8 @@ export class AdministarUsuariosComponent implements OnInit {
       }
     });
   }
+
+  
 
   //Dialog para eliminar a un administrador
   openDialog(id: String, nom: String, rol: String): void {
@@ -146,12 +151,14 @@ export class AdministarUsuariosComponent implements OnInit {
   }
 
   //Dialog para ver la información de los administradores
-  infoAdminDialog(id: String, nom: String, rol: String): void {
+  infoAdminDialog(id: String, nom: String, rol: String, lista: [], idRol: number): void {
     //console.log(lista);
     const dialogRef = this.dialog.open(InfoAdministradorDialogComponent, {
       data: {idUser: id,
         nombres: nom,
-        rol: rol}
+        rol: rol,
+        idRol: idRol,
+        eventos: lista}
     });
 
     dialogRef.afterClosed().subscribe(result => {

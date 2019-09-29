@@ -1,7 +1,7 @@
 
 <div class="header-ce"><div class="container"><h1>Editar Evento</h1></div></div>
 <!--<button (click)="createEvento()">Crear</button>-->
-<div class="container">
+<div class="container" >
     <div class="form-ce">
     <div >
       <mat-horizontal-stepper linear="false" #stepper >
@@ -9,6 +9,7 @@
         <mat-step [stepControl]="firstFormGroup">
           <form [formGroup]="firstFormGroup">
             <ng-template matStepLabel>General</ng-template>
+            
             <div class="row">
               <div class="col-md-6">
                 <mat-form-field>
@@ -54,7 +55,7 @@
                   </mat-form-field>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="evento.tipo === 'P'">
               <div class="col-md-6" style="margin-top: 1%;">
                   <mat-form-field>
                     <input matInput type="number" placeholder="Monto a pagar" formControlName="monto" maxlength="10" required *ngIf="seleccionarTipoEvento()">
@@ -64,7 +65,7 @@
                   <button mat-raised-button  class="base" color="primary" (click)="addCamposDialog()" [disabled]="this.firstFormGroup.get('tipo').value != 'P'">+ Campos de registro</button>
               </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="evento.tipo === 'P'; else descripcionLibre">
                 <div class="col-md-6">
                   <div class="md-form" >
                     <label for="form7" style="margin-top: 30px">Descripción</label>
@@ -96,7 +97,15 @@
                       </cdk-virtual-scroll-viewport>
                   </div>
                 </div>
+            </div>
+            <ng-template #descripcionLibre>
+              <div class="md-form" >
+                <label for="form7" style="margin-top: 30px">Descripción</label>
+                <textarea type="text" id="form7" class="md-textarea form-control" mdbInput style="height: 190px;" maxlength="1000" formControlName="descripcion"></textarea>
               </div>
+            </ng-template>
+            
+
             <div class="row" style="margin-top: 3%">
                 <div class="col-md-3">
                     <button mat-raised-button class="base" color="primary" (click)="mover()">Siguiente</button>
@@ -350,6 +359,7 @@
           <div class="row" style="margin-top: 3%">
               <div class="col-md-3">
                 <button mat-raised-button matStepperPrevious class="base" color="primary">Regresar</button>
+                <button mat-raised-button class="base" color="primary" (click)="mover()">Siguiente</button>
               </div>
               <div class="col-md-9">
                 <label *ngIf="fGuardado">*Aun debe guarda los cambios hechos</label>
@@ -358,6 +368,44 @@
               </div>
             </div>
           
+        </mat-step>
+        <!--Paso de seleccion de responsables-->
+        <mat-step>
+          <ng-template matStepLabel>Responsables</ng-template>
+          <div class="container">
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-responsables" >
+              <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let a of responsables">
+                    <td style="font-size: 16px; padding-top: 2%">{{a.administrador._id}}</td>
+                    <td style="font-size: 16px; padding-top: 2%">{{a.nombres}} {{a.apellidos}}</td>
+                    <td >
+                      <button mat-raised-button class="base" color="primary" style=" margin-right: 20px" (click)="activarDesactivar(a)"><mat-icon>{{a.estado}}</mat-icon></button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </cdk-virtual-scroll-viewport>
+          </div>
+          <div style="margin-top: 3%">
+            <div class="row" style="margin-top: 3%">
+              <div class="col-md-3">
+                <button mat-raised-button matStepperPrevious class="base" color="primary">Regresar</button>
+              </div>
+              <div class="col-md-9">
+                  <span class="float-right"><button mat-raised-button class="base" color="primary" style="margin-left: 5px; width: 90px" (click)="backClicked()">Cerrar</button></span>
+                <span class="float-right"><button mat-raised-button class="base" color="primary" style="margin-left: 5px; width: 90px" (click)="actualizarResponsables()">Guardar</button></span>
+              </div>
+            </div>
+          </div>
         </mat-step>
         
       </mat-horizontal-stepper>

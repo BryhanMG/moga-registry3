@@ -35,11 +35,15 @@
     </div>
     <br>
     <h5>Definir como:</h5>
-    <button class="button-size" mat-raised-button color="primary" style="width: 125px"
+    <button class="button-size" mat-raised-button color="primary" style="width: 130px"
       (click)="agregarAdministrador(1)" 
       [disabled]="fusuario"
       matTooltip="Crear administrador">Administrador</button>
-    <button class="button-size" mat-raised-button color="primary" style="width: 125px" 
+    <button class="button-size" mat-raised-button color="primary" style="width: 130px"
+      (click)="agregarAdministrador(2)" 
+      [disabled]="fusuario"
+      matTooltip="Crear administrador especial">Admin. Especial</button>    
+    <button class="button-size" mat-raised-button color="primary" style="width: 130px" 
       (click)="limpiarInformacion()" 
       [disabled]="fcancelar"
       matTooltip="Cancelar acción">Cancelar</button>
@@ -64,7 +68,7 @@
               <td style="width: 40%">{{admin['nombres']}}</td>
               <td style="width: 20%">{{identificarRol(admin.rol)}}</td>
               <td style="width: 20%">
-                <a (click)="infoAdminDialog(admin._id, admin['nombres'], identificarRol(admin.rol))">
+                <a (click)="infoAdminDialog(admin._id, admin['nombres'], identificarRol(admin.rol), admin['eventos'], admin.rol)">
                   <mat-icon matTooltip="Información">info</mat-icon>
                 </a>
                 <a (click)="openDialog(admin._id, admin['nombres'], identificarRol(admin.rol))">

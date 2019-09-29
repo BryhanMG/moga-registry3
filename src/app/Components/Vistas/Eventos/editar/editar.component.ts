@@ -17,6 +17,10 @@ import { ActividadNuevaLibre, Actividad, ActividadNuevaPagada } from "src/app/Mo
 import { AddCamposDialogComponent } from '../../MisDialogs/add-campos-dialog/add-campos-dialog.component';
 import { RelojService } from 'src/app/Servicios/reloj.service';
 import { UserService } from 'src/app/Servicios/user.service';
+import { AdministradorService } from 'src/app/Servicios/administrador.service';
+import { Administrador } from 'src/app/Modelos/administrador';
+import { UsuarioService } from 'src/app/Servicios/usuario.service';
+import { Usuario } from 'src/app/Modelos/usuario';
 
 
 
@@ -30,6 +34,7 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
   evento = new EventoRegistro; //evento que se esta creando
   listaActividades = [];
   listaActividadesEliminadas = [];
+  responsables = []; //Lista de responsables que tienen asignado el evento a crear
 
   tipo: String;
 
@@ -77,7 +82,9 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private atp: AmazingTimePickerService,
     private eventoService: RegistroService,
+    private adminService: AdministradorService,
     private actividadService: ActividadService,
+    private usuarioService: UsuarioService,
     private snackBar: MatSnackBar,  
     private locacion: Location,  
     public dialog: MatDialog,
@@ -120,13 +127,15 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     });  
     this.obtenerEvento(this.route.snapshot.paramMap.get('id'));
     this.obtenerActividades(this.route.snapshot.paramMap.get('id'));
+    this.getResponsables();
     
   }
 
   ngOnDestroy(): void {
     this.r1Subsciption.unsubscribe();
   }
-
+  //******************************************************************************
+  //Paso uno 
   obtenerEvento(id){//Obtiene la informacion del evento que se carga a los campos
     this.eventoService.getEvento(id)
       .subscribe(res =>{
@@ -149,6 +158,8 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
         if (this.evento.tipo === 'L') {
           this.secondFormGroup.controls['tipo'].disable();
           this.secondFormGroup.controls['monto'].disable();
+          this.firstFormGroup.controls['categoria'].disable();
+          this.firstFormGroup.controls['monto'].disable();
         }
       });
   }
@@ -211,6 +222,7 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
   }
 
   mover(){
+    console.log(this.firstFormGroup.valid);
     if (this.firstFormGroup.valid) {
       this.obtenerFHIFHF_F1(false);
       this.stepper.next();  
@@ -249,7 +261,8 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     }
   }
 
-  //------------------------------------------------------------------------------
+  //***********************************************************************
+  ///Segundo paso
   obtenerListFechas(){ //Lista de fechas elegibles en base al intervalo elegido para el evento
     this.listaFechas = [];
     var lFechaI = new Date(this.firstFormGroup.get("fechaI").value);
@@ -465,6 +478,77 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     }
   }
 
+  //******************************************************* */
+  //Paso tres de responsables
+  
+  getResponsables(){
+    this.adminService.getAdminsAE()
+      .subscribe(res =>{
+        this.adminService.admins = res as Administrador[];
+        //console.log(this.adminService.admins);
+        for (const a of this.adminService.admins) {
+          this.getUsuarioAdmin(a._id, a);
+        }
+
+      });
+  }
+  getUsuarioAdmin(id: String, admin: Administrador){
+    if (id != null) {
+      this.usuarioService.getUsuario(id)
+            .subscribe(res =>{
+              var user = res as Usuario;
+              var a = {nombres: user.nombres, apellidos: user.apellidos, administrador: admin, estado: "remove_circle_outline", change: false}
+              for (const ev of admin.eventos) {
+                if (ev === this.evento._id) {
+                  a.estado = "check_circle";
+                  break;    
+                }
+              }
+              this.responsables.push(a);
+              //this.admins.push(a);
+              //console.log(this.admins);
+              //console.log(this.responsables);
+            });
+
+      //this.nombreU = this.usuarioService.usuario.nombres +" "+this.usuarioService.usuario.apellidos
+    }else{
+      this.openSnackBar("Campo Código vacio", "Cerrar");
+    }
+  }
+
+  //Seleccion de administradores responsables del evento
+  activarDesactivar(admin){
+    if (admin.estado === "check_circle") {
+      admin.estado = "remove_circle_outline"
+      //admin.administrador.eventos.splice(0, 1);
+      if (admin.change) {
+        admin.change = false;
+      }else{
+        admin.change = true;
+      }
+      var i=0;
+      for (const r of admin.administrador.eventos) {
+        if (r === this.evento._id) {
+          admin.administrador.eventos.splice(i,1);
+          break;
+        }
+        i++;
+      }
+    }else{
+      admin.estado = "check_circle"
+      admin.administrador.eventos.push(this.evento._id);
+      if (admin.change) {
+        admin.change = false;
+      }else{
+        admin.change = true;
+      }
+    }
+    //console.log(this.responsables);
+  }
+
+  //******************************************************* */
+  //Proceso de guardado
+
   //Actualizar evento
   acuralizarEvento(){
     //console.log(this.evento);
@@ -521,6 +605,23 @@ export class EditarComponent extends CrearEdit implements OnInit, OnDestroy {
     }
 
     this.openSnackBar("Informacion actualizada", "Cerrar");
+  }
+
+  actualizarResponsables(){
+    for (const re of this.responsables) {
+      if(re.change){
+        //console.log(ad.administrador);
+        this.adminService.updateAdminEventos(re.administrador)
+          .subscribe(res =>{
+            //console.log(res);
+            re.change = false;
+          });
+      }
+
+    }
+
+    this.openSnackBar("Responsables actualizados", "Cerrar");
+
   }
 
   //Servicio para el timepicker

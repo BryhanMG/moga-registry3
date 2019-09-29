@@ -10,6 +10,8 @@ import { UserService } from 'src/app/Servicios/user.service';
 import { TerminarEventoDialogComponent } from '../../MisDialogs/terminar-evento-dialog/terminar-evento-dialog.component';
 import { ActividadService } from 'src/app/Servicios/actividad.service';
 import { Actividad } from 'src/app/Modelos/actividad';
+import { User } from 'src/app/Modelos/user';
+import { AdministradorService } from 'src/app/Servicios/administrador.service';
 
 @Component({
   selector: 'app-informacion',
@@ -24,7 +26,7 @@ export class InformacionComponent implements OnInit, OnDestroy {
   mostrar="Z";
   entrada="";
   tiempo: Date;
-  userLogged: UserService;
+  userLogged: User;
 
   //Temporizadores
   private r1Subsciption;
@@ -32,6 +34,7 @@ export class InformacionComponent implements OnInit, OnDestroy {
   constructor(private reloj: RelojService,
     private eventoService: RegistroService,
     private userService: UserService,
+    private adminService: AdministradorService,
     public dialog: MatDialog,
     private actividadService: ActividadService,
     ) { 
@@ -46,7 +49,30 @@ export class InformacionComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit() {
-    this.getEventos();
+    
+    this.actualizar();       
+  }
+
+  actualizar(){
+    this.listaEventos = [];
+    this.listaOpcion = [];
+    this.totalEventos = [];
+
+    this.userLogged = this.userService.getUserLoggedIn();
+    //console.log(this.userLogged);
+    if (this.userLogged.tipo == 2) {
+      this.adminService.getEventosAE(this.userLogged.username)
+        .subscribe(res => {
+          if (res) {
+            //console.log(res[0]['eventos']);
+            for (const evt of res[0]['eventos']) {
+              this.getEventosAdminEspecial(evt);
+            }
+          }
+        });
+    }else{
+      this.getEventos();
+    }
   }
 
   ngOnDestroy(): void {
@@ -59,6 +85,17 @@ export class InformacionComponent implements OnInit, OnDestroy {
         this.listaEventos = res as EventoRegistro[];
         this.listaOpcion = res as EventoRegistro[];
         this.totalEventos = res as EventoRegistro[];
+        //console.log(this.listaEventos);
+      });
+  }
+
+  getEventosAdminEspecial(id: String){
+    this.eventoService.getEvento(id)
+      .subscribe(res =>{
+        let eve= res as EventoRegistro;
+        this.listaEventos.push(eve)
+        this.listaOpcion.push(eve);
+        this.totalEventos.push(eve);
         //console.log(this.listaEventos);
       });
   }

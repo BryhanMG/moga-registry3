@@ -33,25 +33,32 @@ h1{
 }
 
   
-  .example-viewport {
-    height: 491px;
-    width: 94%;
-    margin-bottom: 2%;
-    border-radius: 20px;
-    border-color: #262B38;
-    
-    
-  }
-  .example-viewport-principal {
-    height: 150px;
-    width: 94%;
-    border: 2px solid black;
-    border-radius: 5px;
-    border-color: #262B38;
-    box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
-    
-    
-  }
+.example-viewport {
+  height: 491px;
+  width: 94%;
+  margin-bottom: 2%;
+  border-radius: 20px;
+  border-color: #262B38;
+  
+  
+}
+.example-viewport-principal {
+  height: 150px;
+  width: 94%;
+  border: 2px solid black;
+  border-radius: 5px;
+  border-color: #262B38;
+  box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+}
+
+.example-viewport-responsables {
+  height: 402px;
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 5px;
+  border-color: #262B38;
+  box-shadow: 0px 1px 15px -3px rgba(169,170,171,1);
+}
 
   .example-viewport-actividades {
     height: 190px;

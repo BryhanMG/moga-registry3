@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>Advertencia</h1>
+<div>
+  <h4>¿Seguro que quiere eliminar el siguiente<br>evento para este administrador?:</h4>
+  <h5>ID: {{id}}</h5>
+  <h5>Nombres: {{nombre}}</h5>
+</div>
+<mat-divider style="margin-bottom: 2%; margin-top: 2%"></mat-divider>
+<div mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="eliminar()">Eliminar</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancelar</button>
+  </div>

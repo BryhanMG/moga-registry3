@@ -1,9 +1,13 @@
 .example-viewport {
-    height: 375px;
-    width: 700px;
+    height: 300px;
+    width: 100%;
     border: 5px solid black;
     border-radius: 20px;
     border-color: #262B38;
-    
+  }
+
+.example-viewport-dialog {
+    height: 750px;
+    width: 750px;
     
   }

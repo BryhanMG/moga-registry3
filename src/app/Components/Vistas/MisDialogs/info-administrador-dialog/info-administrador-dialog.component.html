@@ -1,32 +1,103 @@
-<h3 >Información del administrador</h3>
-<div>
-  <h5>ID: {{idUser}}</h5>
-  <h5>Nombres: {{nombres}}</h5>
-  <h5>Rol: {{rol}}</h5>
-</div>
+<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-dialog">
+  <h3 >Información del administrador</h3>
+  <div>
+    <h5>ID: {{idUser}}</h5>
+    <h5>Nombres: {{nombres}}</h5>
+    <h5>Rol: {{rol}}</h5>
+  </div>
 
-<mat-divider style="margin-bottom: 2%; margin-top: 2%"></mat-divider>
-<div >
-  <h3 >Restauración de contraseña</h3>
-  <h5>para restaurar la contraseña debe ingresar la nueva contraseña, <br>para este usuario, en el campo siguiente:</h5>
-  <form [formGroup]="formGroup">
-    <mat-form-field >
-      <input matInput [type]="tipo" placeholder="Password" maxlength="35" formControlName="password" required>
-    </mat-form-field>
-    <a (click)="showHidePassword()" *ngIf="!fpass; else show">
-      <mat-icon>remove_red_eye</mat-icon>
-    </a>
-    <ng-template #show>
-      <a (click)="showHidePassword()">
-        <mat-icon style="color: blue">remove_red_eye</mat-icon>
+  <div *ngIf="idRol == 2">
+    <mat-divider style="margin-bottom: 2%; margin-top: 2%"></mat-divider>
+    <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Evento</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          </tr>
+        </tbody>
+    </table>
+  <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport">
+    
+    <mat-accordion>
+    
+        <mat-expansion-panel *ngFor="let evento of eventos">
+          <!--Titulos-->
+          
+          <mat-expansion-panel-header>
+            <table style="width: 100%">
+              <thead>
+                <th style="width: 20%">
+                  <mat-panel-title>
+                      {{evento._id}}
+                  </mat-panel-title>
+                </th>
+                <th style="width: 40%">
+                  <mat-panel-description>
+                      {{evento.nombre_er}}
+                  </mat-panel-description>
+                </th>
+                <th style="width: 30%">
+                  <mat-panel-description>
+                    <div *ngIf="evento.estado ==='A'; else espera;">
+                      <mat-icon style="color: green;">play_circle_filled</mat-icon>
+                    </div>
+                    <ng-template #espera>
+                        <div *ngIf="evento.estado==='E';else terminado;">
+                          <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                        </div>
+                      </ng-template>
+                      <ng-template #terminado>
+                        <mat-icon style="color: red;">stop</mat-icon>
+                      </ng-template>
+                  </mat-panel-description>
+                </th>
+              </thead>
+            </table>
+            
+          </mat-expansion-panel-header>
+          <!--campos del desplegable-->
+            <p>Descripcion: {{evento.descripcion}}</p>
+            <div class="row">
+              <div class="col-sm-6">Fecha de Inicio: {{evento.fecha_i.substring(0, 10)}} ---- {{evento.fecha_i.substring(11, 16)}} Hrs.</div>
+              <div class="col-sm-6">Fecha Fin: {{evento.fecha_f.substring(0, 10)}} ---- {{evento.fecha_f.substring(11, 16)}} Hrs.</div>
+            </div>
+            <mat-divider style="margin-bottom: 2%; margin-top: 2%"></mat-divider>
+
+            <button mat-raised-button color="primary" (click)="EliminarDialog(evento['_id'], evento['nombre_er'])">Eliminar</button>
+        </mat-expansion-panel>
+      </mat-accordion>
+  </cdk-virtual-scroll-viewport> 
+
+  </div>
+
+  <mat-divider style="margin-bottom: 2%; margin-top: 2%"></mat-divider>
+  <div >
+    <h3 >Restauración de contraseña</h3>
+    <h5>para restaurar la contraseña debe ingresar la nueva contraseña, <br>para este usuario, en el campo siguiente:</h5>
+    <form [formGroup]="formGroup">
+      <mat-form-field >
+        <input matInput [type]="tipo" placeholder="Password" maxlength="35" formControlName="password" required>
+      </mat-form-field>
+      <a (click)="showHidePassword()" *ngIf="!fpass; else show">
+        <mat-icon>remove_red_eye</mat-icon>
       </a>
-    </ng-template>
-    <br>
-    <label *ngIf="ferror"> {{mensaje}}</label>
-    <br>
-    <button mat-raised-button color="primary" style="margin-right: 2%; width: 120px;" (click)="restablecer()">Restablecer</button>
-    <button mat-raised-button color="primary" style="margin-right: 2%; width: 120px;" (click)="onNoClick()">Cerrar</button>
-  </form>
-  
-</div>
+      <ng-template #show>
+        <a (click)="showHidePassword()">
+          <mat-icon style="color: blue">remove_red_eye</mat-icon>
+        </a>
+      </ng-template>
+      <br>
+      <label *ngIf="ferror"> {{mensaje}}</label>
+      <br>
+      <button mat-raised-button color="primary" style="margin-right: 2%; width: 120px;" (click)="restablecer()">Restablecer</button>
+      <button mat-raised-button color="primary" style="margin-right: 2%; width: 120px;" (click)="onNoClick()">Cerrar</button>
+    </form>
+    
+  </div>
 
+</cdk-virtual-scroll-viewport>

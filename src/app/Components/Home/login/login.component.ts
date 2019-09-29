@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           //console.log(res);
           if (res[0]) {
             //console.log(res[0]);
-            let u: User = {username: res[0]['_id']};;        
+            let u: User = {username: res[0]['_id'], tipo: res[0]['rol']};;        
               this.userService.setUserLoggedIn(u);
               this.router.navigateByUrl('/moga');
               this.mensaje = null;  

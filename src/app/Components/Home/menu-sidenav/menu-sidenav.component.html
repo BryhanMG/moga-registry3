@@ -2,14 +2,14 @@
   <mat-sidenav #sidenav  mode="push"  class="base">
               <div class="container" style="background: white">
                 <div><img src="../../../assets/imgs/user.png"></div>
-                <div class="offset-1"><h4>
-                  Usuario: {{usuario}}</h4>
+                <div class="offset-1">
+                  <h5>Usuario: {{usuario}}</h5>
                 </div>
               </div>
 
                 <div class="menu-base">
                   <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/eventos"><h4>Eventos</h4></button>
-                  <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/usuarios"><h4>Usuarios</h4></button>
+                  <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/usuarios" *ngIf="userLogged.tipo == 1"><h4>Usuarios</h4></button>
                   <button mat-raised-button style="width: 100%; padding: 10px" class="boton-base" routerLink="/moga/registro" ><h4>Registro</h4></button>
                   
                   

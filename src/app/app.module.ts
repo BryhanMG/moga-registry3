@@ -41,6 +41,8 @@ import { TipoActividadDialogComponent } from './Components/Vistas/MisDialogs/tip
 import { TerminarEventoDialogComponent } from './Components/Vistas/MisDialogs/terminar-evento-dialog/terminar-evento-dialog.component';
 import { InformeComponent } from './Components/Vistas/Eventos/informe/informe.component';
 import { ReporteComponent } from './Components/Vistas/Eventos/reporte/reporte.component';
+import { EliminarEventoDialogComponent } from './Components/Vistas/MisDialogs/eliminar-evento-dialog/eliminar-evento-dialog.component';
+
 
 
 @NgModule({
@@ -74,6 +76,7 @@ import { ReporteComponent } from './Components/Vistas/Eventos/reporte/reporte.co
     TerminarEventoDialogComponent,
     InformeComponent,
     ReporteComponent,
+    EliminarEventoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +101,7 @@ import { ReporteComponent } from './Components/Vistas/Eventos/reporte/reporte.co
     ImportRegistrosDialogComponent,
     TipoActividadDialogComponent,
     TerminarEventoDialogComponent,
+    EliminarEventoDialogComponent
   ],
   providers: [
     {provide: LocationStrategy, useClass:HashLocationStrategy}

@@ -7,8 +7,6 @@ import {Location} from '@angular/common';
 import { User } from "src/app/Modelos/user";
 import { UsuarioService } from 'src/app/Servicios/usuario.service';
 import { CambiarPasswordDialogComponent } from '../../Vistas/MisDialogs/cambiar-password-dialog/cambiar-password-dialog.component';
-import { AdministradorService } from 'src/app/Servicios/administrador.service';
-import { Administrador } from 'src/app/Modelos/administrador';
 import { Router } from '@angular/router';
 import { RelojService } from 'src/app/Servicios/reloj.service';
 import { RegistroService } from 'src/app/Servicios/registro.service';
@@ -34,7 +32,6 @@ export class MenuSidenavComponent implements OnInit, OnDestroy {
   constructor(private locacion: Location,
     private userService: UserService,
     private usuarioService: UsuarioService,
-    private administradorService: AdministradorService,
     public dialog: MatDialog,
     private router: Router,
     private reloj: RelojService,

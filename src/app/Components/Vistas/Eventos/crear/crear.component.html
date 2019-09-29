@@ -347,6 +347,38 @@
             <button mat-raised-button matStepperNext class="base" color="primary" >Siguiente</button>
           </div>
         </mat-step>
+        <!--Paso de seleccion de responsables-->
+        <mat-step >
+          <ng-template matStepLabel>Responsables</ng-template>
+          <div class="container">
+            <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-responsables" >
+              <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Código</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let a of admins">
+                    <td style="font-size: 16px; padding-top: 2%">{{a.administrador._id}}</td>
+                    <td style="font-size: 16px; padding-top: 2%">{{a.nombres}} {{a.apellidos}}</td>
+                    <td>
+                      <button mat-raised-button class="base" color="primary" style=" margin-right: 20px" (click)="activarDesactivar(a)"><mat-icon>{{a.estado}}</mat-icon></button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </cdk-virtual-scroll-viewport>
+            
+          </div>
+          <div style="margin-top: 3%">
+              <button mat-raised-button matStepperPrevious class="base" color="primary">Regresar</button>
+              <button mat-raised-button matStepperNext class="base" color="primary" >Siguiente</button>
+            </div>
+      </mat-step >
         <!--Paso final de verificacion de informacion-->
         <mat-step >
           <ng-template matStepLabel>Verificar Información</ng-template>
@@ -364,114 +396,138 @@
             <div class="col-md-6"><label class="titulo">Hora de finalización: </label><label class="contenido">{{evento.fecha_f.substring(11, 16)}} Hrs.</label></div>
           </div>
 
-          <label class="titulo">Actividades:</label>
-          <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-informacion" >
-            <mat-accordion *ngIf="evento.tipo === 'L'; else pagoFinal">
-            
-              <mat-expansion-panel *ngFor="let actividad of listaActividades">
-                <!--Titulos-->
+          <div class="row">
+            <div class="col-md-6">
+              <label class="titulo">Actividades:</label>
+              <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-informacion" >
+                <mat-accordion *ngIf="evento.tipo === 'L'; else pagoFinal">
                 
-                <mat-expansion-panel-header>
-                  <table style="width: 100%">
-                    <thead>
-                      <th style="width: 20%">
-                        <mat-panel-title>
-                          {{obtenerTipoActividad(actividad['actividad'].tipo)}}
-                        </mat-panel-title>
-                      </th>
-                      <th style="width: 40%">
-                        <mat-panel-description>
-                          {{actividad['actividad'].nombre_a}}
-                        </mat-panel-description>
-                      </th>
-                      <th style="width: 30%">
-                        <mat-panel-description>
-                          <div *ngIf="actividad['actividad'].estado==='A'; else espera;">
-                            <mat-icon style="color: green;">play_circle_filled</mat-icon>
-                          </div>
-                          <ng-template #espera>
-                              <div *ngIf="actividad['actividad'].estado==='E';else terminado;">
-                                <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                  <mat-expansion-panel *ngFor="let actividad of listaActividades">
+                    <!--Titulos-->
+                    
+                    <mat-expansion-panel-header>
+                      <table style="width: 100%">
+                        <thead>
+                          <th style="width: 20%">
+                            <mat-panel-title>
+                              {{obtenerTipoActividad(actividad['actividad'].tipo)}}
+                            </mat-panel-title>
+                          </th>
+                          <th style="width: 40%">
+                            <mat-panel-description>
+                              {{actividad['actividad'].nombre_a}}
+                            </mat-panel-description>
+                          </th>
+                          <th style="width: 30%">
+                            <mat-panel-description>
+                              <div *ngIf="actividad['actividad'].estado==='A'; else espera;">
+                                <mat-icon style="color: green;">play_circle_filled</mat-icon>
                               </div>
-                            </ng-template>
-                            <ng-template #terminado>
-                                <div *ngIf="actividad['actividad'].estado==='T';">
-                                  <mat-icon style="color: red;">stop</mat-icon>
-                                </div>
-                            </ng-template>
-                        </mat-panel-description>
-                      </th>
-                    </thead>
-                  </table>
-                  
-                  
-                  
-                </mat-expansion-panel-header>
-                <!--campos del desplegable-->
-                  <p>Descripcion: {{actividad['actividad'].descripcion}}</p>
-                  <div class="row">
-                    <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
-                    <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
-                  </div>
-                  <br>
-                  
-              </mat-expansion-panel>
-            </mat-accordion>
-            <ng-template #pagoFinal>
-                <mat-accordion>
-            
-                    <mat-expansion-panel *ngFor="let actividad of listaActividadesP">
-                      <!--Titulos-->
-                      
-                      <mat-expansion-panel-header>
-                        <table style="width: 100%">
-                          <thead>
-                            <th style="width: 20%">
-                              <mat-panel-title>
-                                {{obtenerTipoActividad(actividad['actividad'].tipo)}}
-                              </mat-panel-title>
-                            </th>
-                            <th style="width: 40%">
-                              <mat-panel-description>
-                                {{actividad['actividad'].nombre_a}}
-                              </mat-panel-description>
-                            </th>
-                            <th style="width: 30%">
-                              <mat-panel-description>
-                                <div *ngIf="actividad['actividad'].estado==='A'; else espera;">
-                                  <mat-icon style="color: green;">play_circle_filled</mat-icon>
-                                </div>
-                                <ng-template #espera>
-                                    <div *ngIf="actividad['actividad'].estado==='E';else terminado;">
-                                      <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                              <ng-template #espera>
+                                  <div *ngIf="actividad['actividad'].estado==='E';else terminado;">
+                                    <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                                  </div>
+                                </ng-template>
+                                <ng-template #terminado>
+                                    <div *ngIf="actividad['actividad'].estado==='T';">
+                                      <mat-icon style="color: red;">stop</mat-icon>
                                     </div>
-                                  </ng-template>
-                                  <ng-template #terminado>
-                                      <div *ngIf="actividad['actividad'].estado==='T';">
-                                        <mat-icon style="color: red;">stop</mat-icon>
-                                      </div>
-                                  </ng-template>
-                              </mat-panel-description>
-                            </th>
-                          </thead>
-                        </table>
-                        
-                        
-                        
-                      </mat-expansion-panel-header>
-                      <!--campos del desplegable-->
-                        <h5>Descripcion: {{actividad['actividad'].descripcion}}</h5>
-                        <h5 *ngIf="actividad['actividad'].tipo == 2">Monto: {{actividad['actividad'].monto}}</h5>
-                        <div class="row">
-                          <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
-                          <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
-                        </div>
-                        <br>
-                        
-                    </mat-expansion-panel>
-                  </mat-accordion>
-            </ng-template>
-          </cdk-virtual-scroll-viewport> 
+                                </ng-template>
+                            </mat-panel-description>
+                          </th>
+                        </thead>
+                      </table>
+                      
+                      
+                      
+                    </mat-expansion-panel-header>
+                    <!--campos del desplegable-->
+                      <p>Descripcion: {{actividad['actividad'].descripcion}}</p>
+                      <div class="row">
+                        <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
+                        <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
+                      </div>
+                      <br>
+                      
+                  </mat-expansion-panel>
+                </mat-accordion>
+                <ng-template #pagoFinal>
+                    <mat-accordion>
+                
+                        <mat-expansion-panel *ngFor="let actividad of listaActividadesP">
+                          <!--Titulos-->
+                          
+                          <mat-expansion-panel-header>
+                            <table style="width: 100%">
+                              <thead>
+                                <th style="width: 20%">
+                                  <mat-panel-title>
+                                    {{obtenerTipoActividad(actividad['actividad'].tipo)}}
+                                  </mat-panel-title>
+                                </th>
+                                <th style="width: 40%">
+                                  <mat-panel-description>
+                                    {{actividad['actividad'].nombre_a}}
+                                  </mat-panel-description>
+                                </th>
+                                <th style="width: 30%">
+                                  <mat-panel-description>
+                                    <div *ngIf="actividad['actividad'].estado==='A'; else espera;">
+                                      <mat-icon style="color: green;">play_circle_filled</mat-icon>
+                                    </div>
+                                    <ng-template #espera>
+                                        <div *ngIf="actividad['actividad'].estado==='E';else terminado;">
+                                          <mat-icon style="color: blue;">pause_circle_filled</mat-icon>
+                                        </div>
+                                      </ng-template>
+                                      <ng-template #terminado>
+                                          <div *ngIf="actividad['actividad'].estado==='T';">
+                                            <mat-icon style="color: red;">stop</mat-icon>
+                                          </div>
+                                      </ng-template>
+                                  </mat-panel-description>
+                                </th>
+                              </thead>
+                            </table>
+                            
+                            
+                            
+                          </mat-expansion-panel-header>
+                          <!--campos del desplegable-->
+                            <h5>Descripcion: {{actividad['actividad'].descripcion}}</h5>
+                            <h5 *ngIf="actividad['actividad'].tipo == 2">Monto: {{actividad['actividad'].monto}}</h5>
+                            <div class="row">
+                              <div class="col-sm-6">Fecha de Inicio: {{actividad['actividad'].fecha_i.substring(0, 10)}} ---- {{actividad['actividad'].fecha_i.substring(11, 16)}} Hrs.</div>
+                              <div class="col-sm-6">Fecha Fin: {{actividad['actividad'].fecha_f.substring(0, 10)}} ---- {{actividad['actividad'].fecha_f.substring(11, 16)}} Hrs.</div>
+                            </div>
+                            <br>
+                            
+                        </mat-expansion-panel>
+                      </mat-accordion>
+                </ng-template>
+              </cdk-virtual-scroll-viewport> 
+            </div>
+            <div class="col-md-6">
+              <label class="titulo">Responsables:</label>
+              <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport-informacion" >
+                <table class="table">
+                  <thead class="thead-dark">
+                      <tr>
+                          <th scope="col">Código</th>
+                          <th scope="col">Nombre</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let r of responsables">
+                      <td style="font-size: 18px; padding-top: 2%">{{r.administrador._id}}</td>
+                      <td style="font-size: 18px; padding-top: 2%">{{r.nombres}} {{r.apellidos}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </cdk-virtual-scroll-viewport>
+            </div>
+          </div>
+          
             
           <div style="margin-top: 3%">
             <button mat-raised-button matStepperPrevious class="base" color="primary">Regresar</button>

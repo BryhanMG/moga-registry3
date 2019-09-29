@@ -18,6 +18,10 @@ import { RelojService } from 'src/app/Servicios/reloj.service';
 import { UserService } from 'src/app/Servicios/user.service';
 import { Router } from '@angular/router';
 import { TipoActividadDialogComponent } from '../../MisDialogs/tipo-actividad-dialog/tipo-actividad-dialog.component';
+import { AdministradorService } from 'src/app/Servicios/administrador.service';
+import { Administrador } from 'src/app/Modelos/administrador';
+import { UsuarioService } from 'src/app/Servicios/usuario.service';
+import { Usuario } from 'src/app/Modelos/usuario';
 
 @Component({
   selector: 'app-crear',
@@ -30,6 +34,8 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
 
   listaActividades = [];
   listaActividadesP = [];
+  admins = [];
+  responsables = []; //Lista de responsables que tienen asignado el evento a crear
 
   tipo: String;
 
@@ -77,7 +83,9 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
   constructor(private _formBuilder: FormBuilder,
     private atp: AmazingTimePickerService,
     private eventoService: RegistroService,
+    private usuarioService: UsuarioService,
     private actividadService: ActividadService,
+    private adminService: AdministradorService,
     private snackBar: MatSnackBar,    
     private locacion: Location,
     public dialog: MatDialog,
@@ -117,12 +125,14 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
       checked: [false],
     });  
     this.evento.campos = [];
+    this.getResponsables();
   }
 
   ngOnDestroy(): void {
     this.r1Subsciption.unsubscribe();
   }
-  
+  //*******************************************************************************
+  //Primer paso de la creacion del evento
   obtenerFHIFHF_F1(){
     //console.log("Prueba: ",this.firstFormGroup.get("fechaI").value);
     this.fechaI = this.obtenerFecha(new Date(this.firstFormGroup.get("fechaI").value), this.firstFormGroup.get("horaI").value);
@@ -212,8 +222,8 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
     this.secondFormGroup.get('descripcion').setValue(null);
   }
 
-  //------------------------------------------------------------------------------
-
+  //********************************************************************************************
+  //Segundo paso en la creacion del evneto
   obtenerListFechas(){ //Lista de fechas elegibles en base al intervalo elegido para el evento
     this.listaFechas = [];
     var lFechaI = new Date(this.firstFormGroup.get("fechaI").value);
@@ -296,7 +306,6 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
     return true;
   }
 
-  //------------------------------------------------------------------------
   addActividad(){
     if (!this.feditar) {
       if (this.evento.tipo === "L") {
@@ -434,14 +443,77 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
         break;
     }
   }
+  //*****************************************************************************************
+  //Tercer paso en la creacion del evento
+  getResponsables(){
+    console.log("Hola mundo");
+    this.adminService.getAdminsAE()
+      .subscribe(res =>{
+        console.log(res);
+        this.adminService.admins = res as Administrador[];
+        if (this.adminService.admins.length == 0) {
+          console.log("No hay administradores registrados");
+        }else{
+          //console.log(this.adminService.admins);
+          for (const a of this.adminService.admins) {
+            //console.log(a);
+            this.getUsuarioAdmin(a._id, a);
+          }
+        }
+      }, error => console.log("Coleccion administradores no existe"));
+  }
 
+  getUsuarioAdmin(id: String, admin: Administrador){
+    if (id != null) {
+      this.usuarioService.getUsuario(id)
+            .subscribe(res =>{
+              var user = res as Usuario;
+              this.admins.push({nombres: user.nombres, apellidos: user.apellidos, administrador: admin, estado: "remove_circle_outline"})
+              console.log(this.admins);
+            });
+
+      //this.nombreU = this.usuarioService.usuario.nombres +" "+this.usuarioService.usuario.apellidos
+    }else{
+      this.openSnackBar("Campo Código vacio", "Cerrar");
+    }
+  }
+
+  //Seleccion de administradores responsables del evento
+  activarDesactivar(admin){
+    if (admin.estado === "check_circle") {
+      admin.estado = "remove_circle_outline"
+      admin.administrador.eventos.splice(0, 1);
+
+      var i=0;
+      for (const r of this.responsables) {
+        if (r.administrador._id === admin.administrador._id) {
+          break;
+        }
+        i++;
+      }
+      this.responsables.splice(i, 1);
+
+
+    }else{
+      admin.estado = "check_circle"
+      admin.administrador.eventos.push(this.evento._id);
+      this.responsables.push(admin);
+
+    }
+    //console.log(this.admins);
+    //console.log(this.responsables);
+  }
+
+
+  //****************************************************************************************
+  //Paso final en la creacion del evento
   //Crear evento
   crearEvento(){
     //console.log(this.evento);
     //console.log(this.listaActividades);
     this.eventoService.postEvento(this.evento)
       .subscribe(res =>{
-        console.log(res);
+        //console.log(res);
         this.openSnackBar("Evento creado", "Cerrar");
         if (this.evento.tipo === 'L') {
           for (const actividad of this.listaActividades) {
@@ -458,9 +530,17 @@ export class CrearComponent extends CrearEdit implements OnInit, OnDestroy {
               });  
           }  
         }
+        for (const re of this.responsables) {
+          //console.log(re.administrador);
+          this.adminService.updateAdminEventos(re.administrador)
+            .subscribe(res =>{
+              //console.log(res);
+            });
+        }
         
         this.locacion.back();
       });
+    
   }
 
   //Servicio para el timepicker
